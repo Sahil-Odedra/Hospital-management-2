@@ -1,4 +1,4 @@
-package com.careconnect.db;
+package com.careconnect;
 
 import java.sql.*;
 

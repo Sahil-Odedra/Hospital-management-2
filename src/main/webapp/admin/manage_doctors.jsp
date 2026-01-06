@@ -1,5 +1,5 @@
-<%@ page import="com.careconnect.model.User" %>
-    <%@ page import="com.careconnect.dao.HospitalDAO" %>
+<%@ page import="com.careconnect.Entities.*" %>
+    <%@ page import="com.careconnect.HospitalDAO" %>
         <%@ page import="java.util.List" %>
             <%@ page contentType="text/html;charset=UTF-8" language="java" %>
                 <% User user=(User) session.getAttribute("user"); if (user==null || !"ADMIN".equals(user.getRole())) {

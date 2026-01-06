@@ -1,12 +1,9 @@
-package com.careconnect.dao;
+package com.careconnect;
 
-import com.careconnect.db.DBConnection;
-import com.careconnect.model.Appointment;
-import com.careconnect.model.Patient;
-import com.careconnect.model.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import com.careconnect.Entities.*;
 
 public class HospitalDAO {
 

@@ -1,4 +1,4 @@
-<%@ page import="com.careconnect.model.User" %>
+<%@ page import="com.careconnect.Entities.*" %>
     <%@ page contentType="text/html;charset=UTF-8" language="java" %>
         <% User user=(User) session.getAttribute("user"); if (user==null || !"ADMIN".equals(user.getRole())) {
             response.sendRedirect(request.getContextPath() + "/index.jsp" ); return; } %>

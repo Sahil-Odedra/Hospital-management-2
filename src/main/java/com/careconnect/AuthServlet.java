@@ -1,7 +1,6 @@
-package com.careconnect.servlet;
+package com.careconnect;
 
-import com.careconnect.dao.HospitalDAO;
-import com.careconnect.model.User;
+import com.careconnect.Entities.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

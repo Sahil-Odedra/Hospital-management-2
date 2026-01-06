@@ -1,6 +1,5 @@
-package com.careconnect.listener;
+package com.careconnect;
 
-import com.careconnect.db.DBConnection;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;

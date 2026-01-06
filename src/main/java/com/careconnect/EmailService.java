@@ -1,4 +1,4 @@
-package com.careconnect.service;
+package com.careconnect;
 
 import java.util.Properties;
 import javax.mail.*;
