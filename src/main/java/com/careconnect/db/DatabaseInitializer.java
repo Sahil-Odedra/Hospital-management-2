@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class DatabaseInitializer {
 
-    public static void main(String[] args) {
+    public static void initialize() {
         System.out.println("Starting Database Initialization...");
         try (Connection conn = DBConnection.getConnection()) {
             if (conn == null) {

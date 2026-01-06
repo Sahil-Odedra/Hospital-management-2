@@ -46,16 +46,21 @@ public class AppointmentServlet extends HttpServlet {
             boolean success = appointmentDAO.scheduleAppointment(appt);
 
             if (success) {
-                // Mock Email Notification
+                // Real Email Notification
                 Patient p = patientDAO.getPatientById(patientId);
                 if (p != null) {
-                    System.out.println("--------------------------------------------------");
-                    System.out.println("MOCK EMAIL SERVICE");
-                    System.out.println("To: " + p.getEmail());
-                    System.out.println("Subject: Appointment Details - CareConnect");
-                    System.out.println(
-                            "Dear " + p.getFullName() + ", your appointment is confirmed for " + appointmentTime);
-                    System.out.println("--------------------------------------------------");
+                    String subject = "Appointment Confirmation - CareConnect";
+                    String body = "Dear " + p.getFullName() + ",\n\n" +
+                            "Your appointment has been successfully scheduled.\n" +
+                            "Time: " + appointmentTime + "\n" +
+                            "Doctor: Dr. " + doctorId + "\n\n" +
+                            "Please arrive 15 minutes early.\n\n" +
+                            "Regards,\nCareConnect Team";
+
+                    // Run in a separate thread to not block the UI response
+                    new Thread(() -> {
+                        com.careconnect.service.EmailService.sendEmail(p.getEmail(), subject, body);
+                    }).start();
                 }
 
                 resp.sendRedirect(req.getContextPath()
