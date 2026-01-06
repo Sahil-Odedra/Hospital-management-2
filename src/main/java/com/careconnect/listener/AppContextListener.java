@@ -1,6 +1,6 @@
 package com.careconnect.listener;
 
-import com.careconnect.db.DatabaseInitializer;
+import com.careconnect.db.DBConnection;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -10,7 +10,7 @@ public class AppContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        DatabaseInitializer.initialize();
+        DBConnection.initializeDatabase();
     }
 
     @Override

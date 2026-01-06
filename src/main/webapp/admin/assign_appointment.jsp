@@ -1,11 +1,11 @@
 <%@ page import="com.careconnect.model.*" %>
-    <%@ page import="com.careconnect.dao.*" %>
+    <%@ page import="com.careconnect.dao.HospitalDAO" %>
         <%@ page import="java.util.List" %>
             <%@ page contentType="text/html;charset=UTF-8" language="java" %>
                 <% User user=(User) session.getAttribute("user"); if (user==null || !"ADMIN".equals(user.getRole())) {
-                    response.sendRedirect(request.getContextPath() + "/index.jsp" ); return; } UserDAO userDAO=new
-                    UserDAO(); PatientDAO patientDAO=new PatientDAO(); List<User> doctors = userDAO.getAllDoctors();
-                    List<Patient> patients = patientDAO.getAllPatients();
+                    response.sendRedirect(request.getContextPath() + "/index.jsp" ); return; } HospitalDAO
+                    hospitalDAO=new HospitalDAO(); List<User> doctors = hospitalDAO.getAllDoctors();
+                    List<Patient> patients = hospitalDAO.getAllPatients();
                         %>
                         <!DOCTYPE html>
                         <html lang="en">

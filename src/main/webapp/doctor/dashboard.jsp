@@ -3,9 +3,9 @@
         <%@ page import="java.util.List" %>
             <%@ page contentType="text/html;charset=UTF-8" language="java" %>
                 <% User user=(User) session.getAttribute("user"); if (user==null || !"DOCTOR".equals(user.getRole())) {
-                    response.sendRedirect(request.getContextPath() + "/index.jsp" ); return; } AppointmentDAO
-                    appointmentDAO=new AppointmentDAO(); List<Appointment> appointments =
-                    appointmentDAO.getAppointmentsByDoctor(user.getId());
+                    response.sendRedirect(request.getContextPath() + "/index.jsp" ); return; } HospitalDAO
+                    hospitalDAO=new HospitalDAO(); List<Appointment> appointments =
+                    hospitalDAO.getAppointmentsByDoctor(user.getId());
                     %>
                     <!DOCTYPE html>
                     <html lang="en">
