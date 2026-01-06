@@ -1,6 +1,5 @@
-# Maven
-target/
-*.war
+# Secrets
+src/main/resources/db.properties
 
 # IDEs
 .idea/

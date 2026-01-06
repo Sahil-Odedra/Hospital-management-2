@@ -5,25 +5,39 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    // Database Credentials from User
-    private static final String URL = "jdbc:mysql://34.143.135.67:3306/hospital?useSSL=false&allowPublicKeyRetrieval=true";
-    private static final String USER = "root";
-    private static final String PASSWORD = "1234"; // Ideally, use environment variables
+    private static String URL;
+    private static String USER;
+    private static String PASSWORD;
 
-    // Load Driver Static Block
+    // Load Driver and Properties Static Block
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
+
+            // Load properties
+            java.util.Properties props = new java.util.Properties();
+            java.io.InputStream is = DBConnection.class.getClassLoader().getResourceAsStream("db.properties");
+
+            if (is != null) {
+                props.load(is);
+                URL = props.getProperty("db.url");
+                USER = props.getProperty("db.user");
+                PASSWORD = props.getProperty("db.password");
+            } else {
+                // Fallback or Error
+                System.err.println("❌ db.properties not found!");
+            }
+
+        } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Error loading MySQL Driver", e);
+            throw new RuntimeException("Error initializing DB Connection", e);
         }
     }
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
-    
+
     // Test helper (Main method to verification connection quickly)
     public static void main(String[] args) {
         try (Connection conn = getConnection()) {
