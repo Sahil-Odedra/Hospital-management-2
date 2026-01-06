@@ -24,15 +24,4 @@ public class DBConnection {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    // Test helper (Main method to verification connection quickly)
-    public static void main(String[] args) {
-        try (Connection conn = getConnection()) {
-            if (conn != null) {
-                System.out.println("✅ Successfully connected to Google Cloud SQL!");
-            }
-        } catch (SQLException e) {
-            System.err.println("❌ Connection Failed!");
-            e.printStackTrace();
-        }
-    }
 }

@@ -20,12 +20,7 @@ public class LoginServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        System.out.println("----- LOGIN ATTEMPT -----");
-        System.out.println("Email provided: " + email);
-        System.out.println("Password provided: " + password);
-
         User user = userDAO.login(email, password);
-        System.out.println("User found: " + (user != null ? user.getEmail() : "NULL"));
 
         if (user != null) {
             HttpSession session = req.getSession();

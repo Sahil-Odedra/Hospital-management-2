@@ -14,18 +14,11 @@ public class UserDAO {
         try (Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            if (conn == null) {
-                System.out.println("❌ UserDAO: DB Connection is NULL");
-                return null;
-            }
-            System.out.println("✅ UserDAO: Connected to DB");
-
             ps.setString(1, email);
             ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                System.out.println("✅ UserDAO: User found in DB");
                 User user = new User();
                 user.setId(rs.getInt("id"));
                 user.setEmail(rs.getString("email"));
@@ -37,7 +30,6 @@ public class UserDAO {
                 return user;
             }
         } catch (SQLException e) {
-            System.err.println("❌ UserDAO Error: " + e.getMessage());
             e.printStackTrace();
         }
         return null;

@@ -8,13 +8,10 @@ import java.sql.Statement;
 public class DatabaseInitializer {
 
     public static void initialize() {
-        System.out.println("Starting Database Initialization...");
         try (Connection conn = DBConnection.getConnection()) {
             if (conn == null) {
-                System.out.println("❌ Failed to establish connection.");
                 return;
             }
-            System.out.println("✅ Connected to Database.");
 
             Statement stmt = conn.createStatement();
 
@@ -29,7 +26,6 @@ public class DatabaseInitializer {
                     "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                     ")";
             stmt.executeUpdate(createUsers);
-            System.out.println("✅ Table 'users' ready.");
 
             // 2. Create Patients Table
             String createPatients = "CREATE TABLE IF NOT EXISTS patients (" +
@@ -41,7 +37,6 @@ public class DatabaseInitializer {
                     "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                     ")";
             stmt.executeUpdate(createPatients);
-            System.out.println("✅ Table 'patients' ready.");
 
             // 3. Create Appointments Table
             String createAppointments = "CREATE TABLE IF NOT EXISTS appointments (" +
@@ -55,7 +50,6 @@ public class DatabaseInitializer {
                     "FOREIGN KEY (patient_id) REFERENCES patients(id)" +
                     ")";
             stmt.executeUpdate(createAppointments);
-            System.out.println("✅ Table 'appointments' ready.");
 
             // 4. Create Default Admin User
             String checkAdmin = "SELECT COUNT(*) FROM users WHERE email = 'admin@hospital.com'";
@@ -70,9 +64,6 @@ public class DatabaseInitializer {
                 psInsert.setString(3, "ADMIN");
                 psInsert.setString(4, "Super Admin");
                 psInsert.executeUpdate();
-                System.out.println("✅ Default Admin User Created (admin@hospital.com / admin123)");
-            } else {
-                System.out.println("ℹ️ Admin user already exists.");
             }
 
         } catch (SQLException e) {

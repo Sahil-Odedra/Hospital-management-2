@@ -33,11 +33,8 @@ public class EmailService {
 
             Transport.send(message);
 
-            System.out.println("✅ Email Sent Successfully to " + toEmail);
-
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("❌ Failed to send email: " + e.getMessage());
         }
     }
 }

@@ -10,7 +10,6 @@ public class AppContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("🚀 Application Starting - Initializing Database...");
         DatabaseInitializer.initialize();
     }
 
