@@ -53,7 +53,7 @@
             </div>
             <button type="submit" class="btn btn-primary w-100">Sign In</button>
             <div class="text-center mt-3">
-                <small class="text-muted">For demo: admin@hospital.com / admin123</small>
+                <small class="text-muted">For demo: admin@hospital.com / admin</small>
             </div>
         </form>
     </div>

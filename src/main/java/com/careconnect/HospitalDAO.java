@@ -187,6 +187,47 @@ public class HospitalDAO {
         return list;
     }
 
+    // ================= DASHBOARD METRICS =================
+
+    public int getDoctorCount() {
+        String sql = "SELECT COUNT(*) FROM users WHERE role = 'DOCTOR'";
+        try (Connection conn = DBConnection.getConnection();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next())
+                return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getPatientCount() {
+        String sql = "SELECT COUNT(*) FROM patients";
+        try (Connection conn = DBConnection.getConnection();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next())
+                return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getPendingAppointmentCount() {
+        String sql = "SELECT COUNT(*) FROM appointments WHERE status = 'SCHEDULED'";
+        try (Connection conn = DBConnection.getConnection();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next())
+                return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public List<Appointment> getAllAppointments() {
         List<Appointment> list = new ArrayList<>();
         String sql = "SELECT a.*, p.full_name as patient_name, u.full_name as doctor_name " +
