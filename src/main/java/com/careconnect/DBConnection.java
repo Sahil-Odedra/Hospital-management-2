@@ -3,10 +3,9 @@ package com.careconnect;
 import java.sql.*;
 
 public class DBConnection {
-    // Hardcoded credentials to avoid properties file encoding issues
-    private static final String URL = "jdbc:mysql://34.143.135.67:3306/hospital?useSSL=false&allowPublicKeyRetrieval=true";
-    private static final String USER = "root";
-    private static final String PASSWORD = "1234";
+    private static final String URL = "jdbc:mysql://hospital-db.ctwq4c0e041t.ap-south-1.rds.amazonaws.com:3306/hospital?useSSL=false&allowPublicKeyRetrieval=true";
+    private static final String USER = "admin";
+    private static final String PASSWORD = "12345678";
 
     static {
         try {
