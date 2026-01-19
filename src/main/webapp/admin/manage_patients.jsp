@@ -156,9 +156,7 @@
                                                                                 class="form-label small fw-medium text-secondary">Phone
                                                                                 Number</label>
                                                                             <input type="text" name="phone"
-                                                                                class="form-control"
-                                                                                placeholder="+1 (555) 000-0000"
-                                                                                required>
+                                                                                class="form-control" required>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label

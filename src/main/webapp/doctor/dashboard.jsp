@@ -81,9 +81,6 @@
                                                                             <th
                                                                                 class="py-3 text-secondary small fw-semibold">
                                                                                 STATUS</th>
-                                                                            <th
-                                                                                class="py-3 text-secondary small fw-semibold text-end pe-4">
-                                                                                ACTION</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -124,11 +121,6 @@
                                                                                         class="badge bg-warning-subtle text-warning-emphasis px-2 py-1">
                                                                                         <%= appt.getStatus() %>
                                                                                     </span>
-                                                                                </td>
-                                                                                <td class="text-end pe-4">
-                                                                                    <button
-                                                                                        class="btn btn-sm btn-primary px-3">Begin
-                                                                                        Session</button>
                                                                                 </td>
                                                                             </tr>
                                                                             <% } %>

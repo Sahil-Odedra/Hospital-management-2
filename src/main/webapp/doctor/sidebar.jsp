@@ -42,12 +42,6 @@
                         <span>My Schedule</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i data-lucide="clipboard-list"></i>
-                        <span>Patient Logs</span>
-                    </a>
-                </li>
             </ul>
         </nav>
 
