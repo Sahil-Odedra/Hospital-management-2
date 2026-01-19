@@ -62,7 +62,8 @@
                                                             <div class="mb-3">
                                                                 <label class="form-label">Date</label>
                                                                 <input type="date" name="appointmentDate"
-                                                                    class="form-control" required>
+                                                                    class="form-control"
+                                                                    min="<%= java.time.LocalDate.now() %>" required>
                                                             </div>
 
                                                             <div class="mb-3">

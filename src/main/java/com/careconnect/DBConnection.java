@@ -1,11 +1,15 @@
 package com.careconnect;
 
 import java.sql.*;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
-public class DBConnection {
-    private static final String URL = "jdbc:mysql://hospital-db.ctwq4c0e041t.ap-south-1.rds.amazonaws.com:3306/hospital?useSSL=false&allowPublicKeyRetrieval=true";
-    private static final String USER = "admin";
-    private static final String PASSWORD = "12345678";
+@WebListener
+public class DBConnection implements ServletContextListener {
+    private static final String URL;
+    private static final String USER;
+    private static final String PASSWORD;
 
     static {
         try {
@@ -13,6 +17,29 @@ public class DBConnection {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             throw new RuntimeException("MySQL Driver not found", e);
+        }
+
+        // Get database credentials from environment variables
+        USER = System.getenv("DB_USER") != null ? System.getenv("DB_USER") : "sahil";
+        PASSWORD = System.getenv("DB_PASS") != null ? System.getenv("DB_PASS") : "";
+        String dbName = System.getenv("DB_NAME") != null ? System.getenv("DB_NAME") : "hospital";
+
+        // Check if running on Cloud Run (INSTANCE_CONNECTION_NAME env var exists)
+        String instanceConnectionName = System.getenv("INSTANCE_CONNECTION_NAME");
+
+        if (instanceConnectionName != null && !instanceConnectionName.isEmpty()) {
+            // Cloud Run deployment: Use Unix socket connection via Cloud SQL Socket Factory
+            URL = String.format(
+                    "jdbc:mysql:///%s?cloudSqlInstance=%s&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false",
+                    dbName,
+                    instanceConnectionName);
+        } else {
+            // Local development: Use public IP connection
+            String dbHost = System.getenv("DB_HOST") != null ? System.getenv("DB_HOST") : "localhost";
+            URL = String.format(
+                    "jdbc:mysql://%s:3306/%s?useSSL=false&allowPublicKeyRetrieval=true",
+                    dbHost,
+                    dbName);
         }
     }
 
@@ -72,23 +99,24 @@ public class DBConnection {
                 String insertAdmin = "INSERT INTO users (email, password, role, full_name) VALUES (?, ?, ?, ?)";
                 PreparedStatement psInsert = conn.prepareStatement(insertAdmin);
                 psInsert.setString(1, "admin@hospital.com");
-                psInsert.setString(2, "admin"); // Matches user request
+                psInsert.setString(2, "admin");
                 psInsert.setString(3, "ADMIN");
                 psInsert.setString(4, "Super Admin");
                 psInsert.executeUpdate();
-                System.out.println("Default Admin created: admin/admin");
-            } else {
-                // Optional: Update password to 'admin' if it exists but is wrong?
-                // For now, let's assume if it exists, it's fine.
-                // But since the user complained, maybe I should forcing update?
-                // No, safer to just ensure existence using the logic above.
-                System.out.println("Admin user already exists.");
             }
-
-            System.out.println("Database initialized successfully.");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        initializeDatabase();
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        // Cleanup if needed
     }
 }

@@ -97,7 +97,9 @@
                                                                         <div class="mb-3">
                                                                             <label>Date of Birth</label>
                                                                             <input type="date" name="dob"
-                                                                                class="form-control" required>
+                                                                                class="form-control"
+                                                                                max="<%= java.time.LocalDate.now() %>"
+                                                                                required>
                                                                         </div>
                                                                         <button type="submit"
                                                                             class="btn btn-primary w-100">Register
