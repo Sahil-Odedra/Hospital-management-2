@@ -8,32 +8,23 @@
         <nav class="flex-grow-1">
             <ul class="nav flex-column gap-1">
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/admin/dashboard.jsp"
+                    <a href="${pageContext.request.contextPath}/doctor/dashboard.jsp"
                         class="nav-link <% if(request.getRequestURI().contains(" dashboard.jsp")) { %>active<% } %>">
                             <i data-lucide="layout-dashboard"></i>
                             <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/admin/manage_doctors.jsp"
-                        class="nav-link <% if(request.getRequestURI().contains(" manage_doctors.jsp")) { %>active<% } %>
-                            ">
-                            <i data-lucide="user-cog"></i>
-                            <span>Manage Doctors</span>
+                    <a href="#" class="nav-link">
+                        <i data-lucide="calendar"></i>
+                        <span>My Schedule</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    class="nav-link <% if(request.getRequestURI().contains("manage_patients.jsp")) { %>active<% } %>">
-                            <i data-lucide="users"></i>
-                            <span>Manage Patients</span>
-                            </a>
-                </li>
-                <li class="nav-item">
-                    class="nav-link <% if(request.getRequestURI().contains("assign_appointment.jsp")) { %>active<% } %>
-                            ">
-                            <i data-lucide="calendar-plus"></i>
-                            <span>Assign Appointment</span>
-                            </a>
+                    <a href="#" class="nav-link">
+                        <i data-lucide="clipboard-list"></i>
+                        <span>Patient Logs</span>
+                    </a>
                 </li>
             </ul>
         </nav>
@@ -42,11 +33,14 @@
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle px-2"
                     id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-2"
+                    <div class="bg-info rounded-circle d-flex align-items-center justify-content-center me-2"
                         style="width: 32px; height: 32px;">
                         <i data-lucide="user" style="width: 18px; height: 18px;"></i>
                     </div>
-                    <strong class="small">Administrator</strong>
+                    <div class="d-flex flex-column">
+                        <strong class="small">Dr. <%=
+                                ((com.careconnect.Entities.User)session.getAttribute("user")).getFullName() %></strong>
+                    </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark shadow border-0 small" aria-labelledby="dropdownUser1">
                     <li><a class="dropdown-item py-2" href="${pageContext.request.contextPath}/auth/logout">

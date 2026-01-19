@@ -9,7 +9,7 @@ public class Entities {
         private int id;
         private String email;
         private String password;
-        private String role; // ADMIN, DOCTOR
+        private String role;
         private String fullName;
         private String specialization;
         private Timestamp createdAt;
@@ -159,7 +159,6 @@ public class Entities {
         private String status;
         private String adminNotes;
 
-        // Helpers for display
         private String doctorName;
         private String patientName;
 

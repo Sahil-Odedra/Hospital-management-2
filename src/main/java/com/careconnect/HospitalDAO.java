@@ -7,8 +7,6 @@ import com.careconnect.Entities.*;
 
 public class HospitalDAO {
 
-    // ================= USER METHODS (Auth & Doctor Mgmt) =================
-
     public User login(String email, String password) {
         String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -73,8 +71,6 @@ public class HospitalDAO {
         return doctors;
     }
 
-    // ================= PATIENT METHODS =================
-
     public boolean addPatient(Patient patient) {
         String sql = "INSERT INTO patients (full_name, email, phone, dob) VALUES (?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
@@ -136,8 +132,6 @@ public class HospitalDAO {
         return null;
     }
 
-    // ================= APPOINTMENT METHODS =================
-
     public boolean scheduleAppointment(Appointment appt) {
         String sql = "INSERT INTO appointments (doctor_id, patient_id, appointment_time, admin_notes, status) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
@@ -158,11 +152,7 @@ public class HospitalDAO {
 
     public List<Appointment> getAppointmentsByDoctor(int doctorId) {
         List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT a.*, p.full_name as patient_name " +
-                "FROM appointments a " +
-                "JOIN patients p ON a.patient_id = p.id " +
-                "WHERE a.doctor_id = ? " +
-                "ORDER BY a.appointment_time ASC";
+        String sql = "SELECT a.*, p.full_name as patient_name FROM appointments a JOIN patients p ON a.patient_id = p.id WHERE a.doctor_id = ? ORDER BY a.appointment_time ASC";
 
         try (Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -186,8 +176,6 @@ public class HospitalDAO {
         }
         return list;
     }
-
-    // ================= DASHBOARD METRICS =================
 
     public int getDoctorCount() {
         String sql = "SELECT COUNT(*) FROM users WHERE role = 'DOCTOR'";
@@ -230,11 +218,7 @@ public class HospitalDAO {
 
     public List<Appointment> getAllAppointments() {
         List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT a.*, p.full_name as patient_name, u.full_name as doctor_name " +
-                "FROM appointments a " +
-                "JOIN patients p ON a.patient_id = p.id " +
-                "JOIN users u ON a.doctor_id = u.id " +
-                "ORDER BY a.appointment_time ASC";
+        String sql = "SELECT a.*, p.full_name as patient_name, u.full_name as doctor_name FROM appointments a JOIN patients p ON a.patient_id = p.id JOIN users u ON a.doctor_id = u.id ORDER BY a.appointment_time ASC";
 
         try (Connection conn = DBConnection.getConnection();
                 Statement stmt = conn.createStatement();

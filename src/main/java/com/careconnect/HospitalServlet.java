@@ -11,10 +11,8 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-@WebServlet(urlPatterns = {
-        "/auth/login", "/auth/logout",
-        "/admin/addDoctor", "/admin/addPatient", "/admin/assignAppointment"
-})
+@WebServlet(urlPatterns = { "/auth/login", "/auth/logout",
+        "/admin/addDoctor", "/admin/addPatient", "/admin/assignAppointment" })
 public class HospitalServlet extends HttpServlet {
 
     private HospitalDAO hospitalDAO = new HospitalDAO();
@@ -26,9 +24,11 @@ public class HospitalServlet extends HttpServlet {
         if ("/auth/login".equals(action)) {
             handleLogin(req, resp);
         } else {
-            // Admin actions require authentication
             HttpSession session = req.getSession(false);
-            User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
+            User currentUser = null;
+            if (session != null) {
+                currentUser = (User) session.getAttribute("user");
+            }
 
             if (currentUser == null || !"ADMIN".equals(currentUser.getRole())) {
                 resp.sendRedirect(req.getContextPath() + "/index.jsp");
@@ -55,8 +55,6 @@ public class HospitalServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/index.jsp");
         }
     }
-
-    // ========== Authentication Methods ==========
 
     private void handleLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String email = req.getParameter("email");
@@ -88,8 +86,6 @@ public class HospitalServlet extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/index.jsp");
     }
 
-    // ========== Admin Methods ==========
-
     private void handleAddDoctor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String fullName = req.getParameter("fullName");
         String email = req.getParameter("email");
@@ -114,7 +110,6 @@ public class HospitalServlet extends HttpServlet {
             String dobStr = req.getParameter("dob");
             Date dob = Date.valueOf(dobStr);
 
-            // Validate birthdate is not in the future
             if (dob.after(new Date(System.currentTimeMillis()))) {
                 resp.sendRedirect(
                         req.getContextPath() + "/admin/manage_patients.jsp?error=Birthdate cannot be in the future");
@@ -145,7 +140,6 @@ public class HospitalServlet extends HttpServlet {
             String dateTimeStr = dateStr + " " + timeStr;
             Timestamp appointmentTime = Timestamp.valueOf(dateTimeStr);
 
-            // Validate appointment is not in the past
             if (appointmentTime.before(new Timestamp(System.currentTimeMillis()))) {
                 resp.sendRedirect(req.getContextPath()
                         + "/admin/assign_appointment.jsp?error=Appointment time cannot be in the past");
