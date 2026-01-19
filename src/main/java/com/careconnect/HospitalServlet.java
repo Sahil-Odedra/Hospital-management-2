@@ -12,7 +12,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 @WebServlet(urlPatterns = { "/auth/login", "/auth/logout",
-        "/admin/addDoctor", "/admin/addPatient", "/admin/assignAppointment" })
+        "/admin/addDoctor", "/admin/addPatient", "/admin/assignAppointment", "/admin/deleteDoctor" })
 public class HospitalServlet extends HttpServlet {
 
     private HospitalDAO hospitalDAO = new HospitalDAO();
@@ -51,6 +51,8 @@ public class HospitalServlet extends HttpServlet {
 
         if ("/auth/logout".equals(action)) {
             handleLogout(req, resp);
+        } else if ("/admin/deleteDoctor".equals(action)) {
+            handleDeleteDoctor(req, resp);
         } else {
             resp.sendRedirect(req.getContextPath() + "/index.jsp");
         }
@@ -172,6 +174,20 @@ public class HospitalServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             resp.sendRedirect(req.getContextPath() + "/admin/assign_appointment.jsp?error=Error processing request");
+        }
+    }
+
+    private void handleDeleteDoctor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            int id = Integer.parseInt(req.getParameter("id"));
+            boolean success = hospitalDAO.deleteDoctor(id);
+            if (success) {
+                resp.sendRedirect(req.getContextPath() + "/admin/manage_doctors.jsp?success=Doctor Deleted");
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/admin/manage_doctors.jsp?error=Delete Failed");
+            }
+        } catch (Exception e) {
+            resp.sendRedirect(req.getContextPath() + "/admin/manage_doctors.jsp?error=Invalid ID");
         }
     }
 }

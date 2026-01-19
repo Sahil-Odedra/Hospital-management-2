@@ -80,7 +80,7 @@
                                                                                         </div>
                                                                                         <span class="fw-medium">Dr. <%=
                                                                                                 doc.getFullName() %>
-                                                                                                </span>
+                                                                                        </span>
                                                                                     </div>
                                                                                 </td>
                                                                                 <td>
@@ -93,12 +93,13 @@
                                                                                     <%= doc.getEmail() %>
                                                                                 </td>
                                                                                 <td class="text-end pe-4">
-                                                                                    <button
-                                                                                        class="btn btn-sm btn-light border-0"
-                                                                                        title="Edit Profile">
-                                                                                        <i data-lucide="edit-3"
-                                                                                            style="width: 16px; height: 16px; color: var(--text-secondary);"></i>
-                                                                                    </button>
+                                                                                    <a href="${pageContext.request.contextPath}/admin/deleteDoctor?id=<%= doc.getId() %>"
+                                                                                        class="btn btn-sm btn-light border-0 text-danger"
+                                                                                        title="Delete Doctor"
+                                                                                        onclick="return confirm('Are you sure you want to delete Dr. <%= doc.getFullName() %>?')">
+                                                                                        <i data-lucide="trash-2"
+                                                                                            style="width: 16px; height: 16px;"></i>
+                                                                                    </a>
                                                                                 </td>
                                                                             </tr>
                                                                             <% } %>
@@ -163,6 +164,8 @@
                                             </div>
                                 </main>
                         </div>
+                        <script
+                            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
                         <script>
                             lucide.createIcons();
                         </script>

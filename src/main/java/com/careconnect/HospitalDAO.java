@@ -71,6 +71,18 @@ public class HospitalDAO {
         return doctors;
     }
 
+    public boolean deleteDoctor(int id) {
+        String sql = "DELETE FROM users WHERE id = ? AND role = 'DOCTOR'";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean addPatient(Patient patient) {
         String sql = "INSERT INTO patients (full_name, email, phone, dob) VALUES (?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();

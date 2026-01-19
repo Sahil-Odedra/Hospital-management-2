@@ -13,63 +13,82 @@
         <script src="https://unpkg.com/lucide@latest"></script>
     </head>
 
-    <body class="auth-wrapper">
+    <body class="bg-light">
+        <style>
+            .login-container {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 24px;
+                background-color: #f8fafc;
+            }
 
-        <div class="auth-card animate-fade">
-            <div class="auth-logo brand-font">
-                <i data-lucide="activity" style="width: 32px; height: 32px;"></i>
-                CareConnect
-            </div>
+            .login-card {
+                width: 100%;
+                max-width: 420px;
+                background: #ffffff;
+                padding: 48px;
+                border-radius: 16px;
+                border: 1px solid #e2e8f0;
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            }
 
-            <h5 class="text-center mb-4" style="color: var(--text-secondary); font-weight: 400;">Welcome Back</h5>
+            .login-logo {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                font-size: 1.75rem;
+                font-weight: 700;
+                margin-bottom: 2rem;
+                color: #000000;
+            }
+        </style>
 
-            <% if (request.getParameter("error") !=null) { %>
-                <div class="alert alert-danger border-0 small py-2" role="alert"
-                    style="background: #fef2f2; color: #991b1b;">
-                    <i data-lucide="alert-circle" style="width: 16px; height: 16px; margin-right: 4px;"></i>
-                    <%= request.getParameter("error") %>
+        <div class="login-container">
+            <div class="login-card animate-fade">
+                <div class="login-logo brand-font">
+                    <i data-lucide="activity" style="width: 32px; height: 32px;"></i>
+                    CareConnect
                 </div>
-                <% } %>
 
-                    <form action="${pageContext.request.contextPath}/auth/login" method="POST">
-                        <div class="mb-4">
-                            <label for="email" class="form-label small fw-medium text-secondary">Email Address</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0 py-2" style="color: #94a3b8;">
-                                    <i data-lucide="mail" style="width: 18px; height: 18px;"></i>
-                                </span>
-                                <input type="email" class="form-control border-start-0 ps-0" id="email" name="email"
-                                    required>
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="password" class="form-label small fw-medium text-secondary">Password</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0 py-2" style="color: #94a3b8;">
-                                    <i data-lucide="lock" style="width: 18px; height: 18px;"></i>
-                                </span>
-                                <input type="password" class="form-control border-start-0 ps-0" id="password"
-                                    name="password" required>
-                            </div>
-                        </div>
-
-                        <div class="mb-4 d-flex justify-content-between align-items-center">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="remember">
-                                <label class="form-check-label small text-secondary" for="remember">Remember me</label>
-                            </div>
-                            <a href="#" class="small text-decoration-none fw-medium"
-                                style="color: var(--brand-primary);">Forgot Password?</a>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100 py-2 fs-6">Sign In to Dashboard</button>
-                    </form>
-
-                    <div class="text-center mt-5">
-                        <p class="small text-muted mb-0">© 2026 CareConnect Medical Systems</p>
-                        <p class="small text-muted">A Secure & HIPAA Compliant Platform</p>
+                <% if (request.getParameter("error") !=null) { %>
+                    <div class="alert alert-danger border-0 small py-2 mb-4" role="alert"
+                        style="background: #fef2f2; color: #991b1b;">
+                        <i data-lucide="alert-circle" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                        <%= request.getParameter("error") %>
                     </div>
+                    <% } %>
+
+                        <form action="${pageContext.request.contextPath}/auth/login" method="POST">
+                            <div class="mb-4">
+                                <label for="email" class="form-label small fw-medium text-secondary">Email
+                                    Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0 py-2" style="color: #94a3b8;">
+                                        <i data-lucide="mail" style="width: 18px; height: 18px;"></i>
+                                    </span>
+                                    <input type="email" class="form-control border-start-0 ps-0" id="email" name="email"
+                                        placeholder="name@company.com" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="password" class="form-label small fw-medium text-secondary">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0 py-2" style="color: #94a3b8;">
+                                        <i data-lucide="lock" style="width: 18px; height: 18px;"></i>
+                                    </span>
+                                    <input type="password" class="form-control border-start-0 ps-0" id="password"
+                                        name="password" placeholder="••••••••" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-3 fs-6 fw-semibold mt-2">Sign In to
+                                Dashboard</button>
+                        </form>
+            </div>
         </div>
 
         <script>
@@ -77,5 +96,4 @@
             lucide.createIcons();
         </script>
     </body>
-
     </html>
