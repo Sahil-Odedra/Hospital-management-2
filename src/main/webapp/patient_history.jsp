@@ -114,33 +114,55 @@
                                                 </p>
                                             </div>
                                             <div class="text-end">
-                                                <span class="badge bg-white text-dark border p-2 rounded-3">
-                                                    <i data-lucide="activity" class="text-primary me-2"
-                                                        style="width: 16px;"></i>
-                                                    Last Updated: <%= new SimpleDateFormat("dd MMM").format(new Date())
-                                                        %>
-                                                </span>
                                             </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-lg-3">
-                                                <div class="card history-card mb-4 bg-primary text-white p-4">
-                                                    <h5 class="fw-bold mb-4">Patient Profile</h5>
-                                                    <div class="small opacity-75 mb-1">Blood Group</div>
-                                                    <div class="fw-bold mb-3">
-                                                        <%= patient.getBloodGroup() !=null ? patient.getBloodGroup()
-                                                            : "N/A" %>
+                                                <div class="card history-card mb-4 bg-white p-4 sticky-top"
+                                                    style="top: 2rem; border: 1px solid #e1e7ec;">
+                                                    <div class="d-flex align-items-center mb-4">
+                                                        <div
+                                                            class="bg-primary bg-opacity-10 text-primary p-2 rounded me-3">
+                                                            <i data-lucide="user" style="width: 24px;"></i>
+                                                        </div>
+                                                        <h5 class="fw-bold mb-0 text-dark">Patient Profile</h5>
                                                     </div>
-                                                    <div class="small opacity-75 mb-1">Address</div>
-                                                    <div class="small fw-medium mb-3">
-                                                        <%= patient.getAddress() !=null ? patient.getAddress()
-                                                            : "Not provided" %>
+
+                                                    <div class="mb-4">
+                                                        <div
+                                                            class="small text-secondary fw-semibold text-uppercase letter-spacing-1 mb-1 d-flex align-items-center">
+                                                            <i data-lucide="droplet" class="me-1 text-danger"
+                                                                style="width:14px"></i> Blood Group
+                                                        </div>
+                                                        <div class="fw-bold fs-5 text-dark">
+                                                            <%= patient.getBloodGroup() !=null ? patient.getBloodGroup()
+                                                                : "N/A" %>
+                                                        </div>
                                                     </div>
-                                                    <div class="small opacity-75 mb-1">Emergency Contact</div>
-                                                    <div class="small fw-medium">
-                                                        <%= patient.getEmergencyContactName() !=null ?
-                                                            patient.getEmergencyContactName() : "N/A" %>
+
+                                                    <div class="mb-4">
+                                                        <div
+                                                            class="small text-secondary fw-semibold text-uppercase letter-spacing-1 mb-1 d-flex align-items-center">
+                                                            <i data-lucide="map-pin" class="me-1 text-primary"
+                                                                style="width:14px"></i> Address
+                                                        </div>
+                                                        <div class="fw-medium text-dark">
+                                                            <%= patient.getAddress() !=null ? patient.getAddress()
+                                                                : "Not provided" %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-2">
+                                                        <div
+                                                            class="small text-secondary fw-semibold text-uppercase letter-spacing-1 mb-1 d-flex align-items-center">
+                                                            <i data-lucide="phone-call" class="me-1 text-success"
+                                                                style="width:14px"></i> Emergency Contact
+                                                        </div>
+                                                        <div class="fw-medium text-dark">
+                                                            <%= patient.getEmergencyContactName() !=null ?
+                                                                patient.getEmergencyContactName() : "N/A" %>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -162,30 +184,48 @@
                                                                         <%= sdf.format(a.getAdmissionDate()) %>
                                                                     </small>
                                                                 </div>
-                                                                <div class="bg-light p-3 rounded-3 mb-3 border">
-                                                                    <div class="row g-3">
+                                                                <div
+                                                                    class="bg-white p-4 rounded-3 shadow-sm mb-3 border">
+                                                                    <div class="row g-4">
                                                                         <div class="col-sm-6">
-                                                                            <div class="small text-secondary mb-1">
-                                                                                Primary Doctor</div>
-                                                                            <div class="fw-bold">
+                                                                            <div
+                                                                                class="small fw-semibold text-secondary text-uppercase letter-spacing-1 mb-2 d-flex align-items-center">
+                                                                                <i data-lucide="stethoscope"
+                                                                                    class="me-1" style="width:14px"></i>
+                                                                                Primary Doctor
+                                                                            </div>
+                                                                            <div class="fw-bold fs-6 text-dark">
                                                                                 <%= a.getDoctorName() %>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-sm-6">
-                                                                            <div class="small text-secondary mb-1">
-                                                                                Status</div>
+                                                                            <div
+                                                                                class="small fw-semibold text-secondary text-uppercase letter-spacing-1 mb-2 d-flex align-items-center">
+                                                                                <i data-lucide="activity" class="me-1"
+                                                                                    style="width:14px"></i> Status
+                                                                            </div>
                                                                             <% String statusClass="Admitted"
-                                                                                .equals(a.getStatus()) ? "text-primary"
-                                                                                : "text-success" ; %>
-                                                                                <div class="fw-bold <%= statusClass %>">
+                                                                                .equals(a.getStatus())
+                                                                                ? "text-primary bg-primary bg-opacity-10 px-2 py-1 rounded"
+                                                                                : "text-success bg-success bg-opacity-10 px-2 py-1 rounded"
+                                                                                ; %>
+                                                                                <div
+                                                                                    class="fw-bold d-inline-block <%= statusClass %>">
                                                                                     <%= a.getStatus() %>
                                                                                 </div>
                                                                         </div>
                                                                         <% if(a.getDischargeDate() !=null) { %>
-                                                                            <div class="col-12 mt-2 pt-2 border-top">
-                                                                                <div class="small text-secondary mb-1">
-                                                                                    Discharge Summary</div>
-                                                                                <div class="fst-italic">
+                                                                            <div
+                                                                                class="col-12 mt-3 pt-3 border-top border-light">
+                                                                                <div
+                                                                                    class="small fw-semibold text-secondary text-uppercase letter-spacing-1 mb-2 d-flex align-items-center">
+                                                                                    <i data-lucide="file-text"
+                                                                                        class="me-1"
+                                                                                        style="width:14px"></i>
+                                                                                    Discharge Summary
+                                                                                </div>
+                                                                                <div
+                                                                                    class="text-dark fst-italic ps-3 border-start border-3 border-light">
                                                                                     <%= a.getDischargeSummary() %>
                                                                                 </div>
                                                                             </div>
@@ -214,22 +254,38 @@
                                                                             </small>
                                                                         </div>
 
-                                                                        <div class="bg-white border p-3 rounded-3 mb-3">
-                                                                            <div class="row g-2 mb-3">
+                                                                        <div
+                                                                            class="bg-white p-4 rounded-3 shadow-sm mb-3 border">
+                                                                            <div class="row g-4 mb-3">
                                                                                 <div class="col-sm-6">
-                                                                                    <div class="small text-secondary">
-                                                                                        Clinical Notes</div>
-                                                                                    <div class="fw-medium">
+                                                                                    <div
+                                                                                        class="small fw-semibold text-secondary text-uppercase letter-spacing-1 mb-2 d-flex align-items-center">
+                                                                                        <i data-lucide="file-text"
+                                                                                            class="me-1"
+                                                                                            style="width:14px"></i>
+                                                                                        Clinical Notes
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="fw-medium text-dark ps-3 border-start border-3 border-light">
                                                                                         <%= appt.getAdminNotes() !=null
-                                                                                            ? appt.getAdminNotes() : "-"
-                                                                                            %>
+                                                                                            &&
+                                                                                            !appt.getAdminNotes().trim().isEmpty()
+                                                                                            ? appt.getAdminNotes()
+                                                                                            : "<span class=\" text-muted
+                                                                                            fst-italic\">No notes
+                                                                                            recorded</span>" %>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-sm-6">
-                                                                                    <div class="small text-secondary">
-                                                                                        Status</div>
+                                                                                    <div
+                                                                                        class="small fw-semibold text-secondary text-uppercase letter-spacing-1 mb-2 d-flex align-items-center">
+                                                                                        <i data-lucide="activity"
+                                                                                            class="me-1"
+                                                                                            style="width:14px"></i>
+                                                                                        Status
+                                                                                    </div>
                                                                                     <span
-                                                                                        class="badge bg-light text-dark border rounded-pill">
+                                                                                        class="badge bg-light text-dark border px-3 py-2 rounded-pill fw-medium">
                                                                                         <%= appt.getStatus() %>
                                                                                     </span>
                                                                                 </div>
@@ -326,8 +382,8 @@
                                                                                     class="item-type type-lab">Diagnostic
                                                                                     Report</span>
                                                                                 <div
-                                                                                    class="d-flex justify-content-between align-items-start mb-2">
-                                                                                    <h5 class="fw-bold mb-0">
+                                                                                    class="d-flex justify-content-between align-items-start mb-3">
+                                                                                    <h5 class="fw-bold mb-0 text-dark">
                                                                                         <%= r.getTestName() %>
                                                                                     </h5>
                                                                                     <small
@@ -337,11 +393,16 @@
                                                                                     </small>
                                                                                 </div>
                                                                                 <div
-                                                                                    class="bg-white border p-3 rounded-3 shadow-sm">
+                                                                                    class="bg-white p-4 rounded-3 shadow-sm mb-3 border border-success border-opacity-25">
                                                                                     <div
-                                                                                        class="small text-secondary mb-1">
-                                                                                        Clinical Findings:</div>
-                                                                                    <div class="fw-medium">
+                                                                                        class="small fw-semibold text-secondary text-uppercase letter-spacing-1 mb-2 d-flex align-items-center">
+                                                                                        <i data-lucide="microscope"
+                                                                                            class="me-1 text-success"
+                                                                                            style="width:14px"></i>
+                                                                                        Clinical Findings:
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="fw-medium text-dark ps-3 border-start border-3 border-success border-opacity-25">
                                                                                         <%= r.getFindings() %>
                                                                                     </div>
                                                                                 </div>
