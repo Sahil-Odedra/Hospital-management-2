@@ -691,6 +691,32 @@ public class HospitalDAO {
         return false;
     }
 
+    public HospitalDAO() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            autoPatchSchema();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void autoPatchSchema() {
+        String createTableSql = "CREATE TABLE IF NOT EXISTS billing_details ("
+                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                + "billing_id INT NOT NULL,"
+                + "item_name VARCHAR(255) NOT NULL,"
+                + "amount DECIMAL(10, 2) NOT NULL,"
+                + "FOREIGN KEY (billing_id) REFERENCES billing (id) ON DELETE CASCADE"
+                + ")";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(createTableSql)) {
+            ps.executeUpdate();
+            System.out.println("Schema auto-patch verified for billing_details.");
+        } catch (Exception e) {
+            System.err.println("Schema auto-patch failed: " + e.getMessage());
+        }
+    }
+
     // --- Billing Catalog ---
 
     public List<BillingCatalog> getBillingCatalog() {
