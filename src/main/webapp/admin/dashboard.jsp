@@ -4,7 +4,7 @@
             <% User user=(User) session.getAttribute("user"); if (user==null || !"ADMIN".equals(user.getRole())) {
                 response.sendRedirect(request.getContextPath() + "/index.jsp" ); return; } HospitalDAO dao=new
                 HospitalDAO(); int doctorCount=dao.getDoctorCount(); int patientCount=dao.getPatientCount(); int
-                pendingCount=dao.getPendingAppointmentCount(); %>
+                pendingCount=dao.getPendingAppointmentCount(); int medicineCount=dao.getMedicineCount(); %>
                 <!DOCTYPE html>
                 <html lang="en">
 
@@ -29,23 +29,15 @@
                             <main class="main-content flex-grow-1">
                                 <header class="d-flex justify-content-between align-items-center mb-5 animate-fade">
                                     <div>
-                                        <h2 class="mb-1">Hello, <%= user.getFullName() %> 👋</h2>
-                                        <p class="text-secondary small mb-0">System Overview & Analytics</p>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-3">
-                                        <span class="badge rounded-pill px-3 py-2"
-                                            style="background: #ecfdf5; color: #065f46; font-weight: 500;">
-                                            <span class="d-inline-block rounded-circle me-1"
-                                                style="width: 8px; height: 8px; background: #10b981;"></span>
-                                            System Online
-                                        </span>
+                                        <h2 class="mb-1">Hello, <%= user.getFullName() %>
+                                        </h2>
                                     </div>
                                 </header>
 
                                 <!-- Dashboard Stats Grid -->
                                 <div class="row g-4 animate-fade" style="animation-delay: 0.1s;">
-                                    <div class="col-md-4">
-                                        <div class="stat-card">
+                                    <div class="col-md-3">
+                                        <div class="stat-card h-100">
                                             <div class="stat-icon" style="background: #eff6ff; color: #1d4ed8;">
                                                 <i data-lucide="user-plus"></i>
                                             </div>
@@ -66,8 +58,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <div class="stat-card">
+                                    <div class="col-md-3">
+                                        <div class="stat-card h-100">
                                             <div class="stat-icon" style="background: #fdf2f7; color: #be185d;">
                                                 <i data-lucide="contacts"></i>
                                             </div>
@@ -88,8 +80,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <div class="stat-card">
+                                    <div class="col-md-3">
+                                        <div class="stat-card h-100">
                                             <div class="stat-icon" style="background: #fffbeb; color: #b45309;">
                                                 <i data-lucide="clock"></i>
                                             </div>
@@ -111,13 +103,35 @@
                                             </a>
                                         </div>
                                     </div>
+
+                                    <div class="col-md-3">
+                                        <div class="stat-card h-100">
+                                            <div class="stat-icon" style="background: #f0fdf4; color: #15803d;">
+                                                <i data-lucide="pill"></i>
+                                            </div>
+                                            <h4 class="text-secondary small fw-medium mb-1">Pharmacy Inventory</h4>
+                                            <div class="d-flex align-items-baseline gap-2">
+                                                <h2 class="mb-0">
+                                                    <%= medicineCount %>
+                                                </h2>
+                                                <span class="text-success small fw-medium">Medicines in Stock</span>
+                                            </div>
+                                            <hr class="my-3 opacity-50">
+                                            <a href="manage_medicines.jsp"
+                                                class="btn btn-link p-0 text-decoration-none small fw-medium d-flex align-items-center gap-1"
+                                                style="color: #15803d;">
+                                                View Stock <i data-lucide="chevron-right"
+                                                    style="width: 14px; height: 14px;"></i>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Quick Actions Section -->
                                 <div class="mt-5 animate-fade" style="animation-delay: 0.2s;">
                                     <h5 class="mb-4">Quick Operations</h5>
                                     <div class="row g-3">
-                                        <div class="col-sm-6 col-lg-4">
+                                        <div class="col-sm-6 col-lg-3">
                                             <a href="manage_doctors.jsp"
                                                 class="btn btn-white w-100 py-3 text-start glass shadow-sm d-flex align-items-center gap-3 border text-decoration-none">
                                                 <div class="rounded p-2 bg-primary-subtle text-primary">
@@ -126,7 +140,7 @@
                                                 <span class="fw-medium text-dark">Add New Doctor</span>
                                             </a>
                                         </div>
-                                        <div class="col-sm-6 col-lg-4">
+                                        <div class="col-sm-6 col-lg-3">
                                             <a href="manage_patients.jsp"
                                                 class="btn btn-white w-100 py-3 text-start glass shadow-sm d-flex align-items-center gap-3 border text-decoration-none">
                                                 <div class="rounded p-2 bg-success-subtle text-success">
@@ -135,13 +149,22 @@
                                                 <span class="fw-medium text-dark">Register Patient</span>
                                             </a>
                                         </div>
-                                        <div class="col-sm-6 col-lg-4">
+                                        <div class="col-sm-6 col-lg-3">
                                             <a href="assign_appointment.jsp"
                                                 class="btn btn-white w-100 py-3 text-start glass shadow-sm d-flex align-items-center gap-3 border text-decoration-none">
                                                 <div class="rounded p-2 bg-info-subtle text-info">
                                                     <i data-lucide="calendar-plus"></i>
                                                 </div>
                                                 <span class="fw-medium text-dark">Assign Appointment</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-lg-3">
+                                            <a href="manage_medicines.jsp"
+                                                class="btn btn-white w-100 py-3 text-start glass shadow-sm d-flex align-items-center gap-3 border text-decoration-none">
+                                                <div class="rounded p-2 bg-warning-subtle text-warning-emphasis">
+                                                    <i data-lucide="flask-conical"></i>
+                                                </div>
+                                                <span class="fw-medium text-dark">Add Medicine</span>
                                             </a>
                                         </div>
                                     </div>

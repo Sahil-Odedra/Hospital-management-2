@@ -4,7 +4,7 @@
             <%@ page contentType="text/html;charset=UTF-8" language="java" %>
                 <% User user=(User) session.getAttribute("user"); if (user==null || !"ADMIN".equals(user.getRole())) {
                     response.sendRedirect(request.getContextPath() + "/index.jsp" ); return; } HospitalDAO
-                    hospitalDAO=new HospitalDAO(); List<User> doctors = hospitalDAO.getAllDoctors();
+                    hospitalDAO=new HospitalDAO(); List<Staff> staffList = hospitalDAO.getAllStaff();
                     %>
                     <!DOCTYPE html>
                     <html lang="en">
@@ -12,7 +12,7 @@
                     <head>
                         <meta charset="UTF-8">
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Manage Doctors | CareConnect</title>
+                        <title>Staff Registry | CareConnect</title>
                         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
                             rel="stylesheet">
                         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
@@ -22,11 +22,10 @@
                     <body>
                         <div class="d-flex">
                             <%@ include file="sidebar.jsp" %>
-
                                 <main class="main-content flex-grow-1">
                                     <header class="d-flex justify-content-between align-items-center mb-5 animate-fade">
                                         <div>
-                                            <h2 class="mb-1">Doctor Management</h2>
+                                            <h2 class="mb-1">Staff Registry</h2>
                                         </div>
                                     </header>
 
@@ -38,13 +37,12 @@
                                         </div>
                                         <% } %>
 
-                                            <div class="row g-4 animate-fade" style="animation-delay: 0.1s;">
-                                                <!-- List Doctors -->
+                                            <div class="row g-4 animate-fade">
                                                 <div class="col-lg-8">
-                                                    <div class="card border-0 shadow-sm h-100"
+                                                    <div class="card border-0 shadow-sm"
                                                         style="border-radius: var(--radius-xl);">
                                                         <div class="card-header bg-white py-3 border-0">
-                                                            <h5 class="mb-0 fw-semibold">Medical Staff Directory</h5>
+                                                            <h5 class="mb-0 fw-semibold">Personnel Database</h5>
                                                         </div>
                                                         <div class="card-body p-0">
                                                             <div class="table-responsive">
@@ -53,51 +51,48 @@
                                                                         <tr>
                                                                             <th
                                                                                 class="ps-4 py-3 text-secondary small fw-semibold">
-                                                                                NAME</th>
+                                                                                NAME & ROLE</th>
                                                                             <th
                                                                                 class="py-3 text-secondary small fw-semibold">
-                                                                                SPECIALIZATION</th>
+                                                                                CONTACT</th>
                                                                             <th
                                                                                 class="py-3 text-secondary small fw-semibold">
-                                                                                EMAIL</th>
+                                                                                ASSIGNMENT</th>
                                                                             <th
                                                                                 class="py-3 text-secondary small fw-semibold text-end pe-4">
-                                                                                ACTIONS</th>
+                                                                                ACTION</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <% for(User doc : doctors) { %>
+                                                                        <% for(Staff s : staffList) { %>
                                                                             <tr>
                                                                                 <td class="ps-4">
-                                                                                    <div
-                                                                                        class="d-flex align-items-center gap-3">
-                                                                                        <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
-                                                                                            style="width: 40px; height: 40px;">
-                                                                                            <i data-lucide="user"
-                                                                                                style="width: 20px; height: 20px;"></i>
-                                                                                        </div>
-                                                                                        <span class="fw-medium">
-                                                                                            <%= doc.getFullName() %>
-                                                                                        </span>
+                                                                                    <div class="fw-medium text-dark">
+                                                                                        <%= s.getName() %>
+                                                                                    </div>
+                                                                                    <div class="text-secondary small">
+                                                                                        <%= s.getRole() %>
                                                                                     </div>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <span
-                                                                                        class="badge bg-info-subtle text-info-emphasis px-2 py-1">
-                                                                                        <%= doc.getSpecialization() %>
-                                                                                    </span>
+                                                                                    <%= s.getPhone() %>
                                                                                 </td>
-                                                                                <td class="text-secondary small">
-                                                                                    <%= doc.getEmail() %>
+                                                                                <td>
+                                                                                    <span
+                                                                                        class="badge bg-secondary-subtle text-secondary border-0">
+                                                                                        <%= s.getAssignedToType() %>
+                                                                                    </span>
+                                                                                    <span
+                                                                                        class="ms-1 text-secondary small">ID:
+                                                                                        <%= s.getAssignedToId() %>
+                                                                                            </span>
                                                                                 </td>
                                                                                 <td class="text-end pe-4">
-                                                                                    <a href="${pageContext.request.contextPath}/admin/deleteDoctor?id=<%= doc.getId() %>"
-                                                                                        class="btn btn-sm btn-light border-0 text-danger"
-                                                                                        title="Delete Doctor"
-                                                                                        onclick="return confirm('Are you sure you want to delete <%= doc.getFullName() %>?')">
-                                                                                        <i data-lucide="trash-2"
+                                                                                    <button
+                                                                                        class="btn btn-sm btn-outline-danger border-0">
+                                                                                        <i data-lucide="user-minus"
                                                                                             style="width: 16px; height: 16px;"></i>
-                                                                                    </a>
+                                                                                    </button>
                                                                                 </td>
                                                                             </tr>
                                                                             <% } %>
@@ -108,49 +103,68 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- Add Doctor Form -->
                                                 <div class="col-lg-4">
                                                     <div class="card border-0 shadow-sm"
                                                         style="border-radius: var(--radius-xl);">
                                                         <div class="card-header bg-white py-3 border-0">
-                                                            <h5 class="mb-0 fw-semibold">Register New Doctor</h5>
+                                                            <h5 class="mb-0 fw-semibold">Recruit Personnel</h5>
                                                         </div>
                                                         <div class="card-body">
                                                             <form
-                                                                action="${pageContext.request.contextPath}/admin/addDoctor"
+                                                                action="${pageContext.request.contextPath}/admin/addStaff"
                                                                 method="POST">
                                                                 <div class="mb-3">
                                                                     <label
                                                                         class="form-label small fw-medium text-secondary">Full
                                                                         Name</label>
-                                                                    <input type="text" name="fullName"
-                                                                        class="form-control" required>
+                                                                    <input type="text" name="name" class="form-control"
+                                                                        required>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label
-                                                                        class="form-label small fw-medium text-secondary">Specialization</label>
-                                                                    <input type="text" name="specialization"
-                                                                        class="form-control" required>
+                                                                        class="form-label small fw-medium text-secondary">Role</label>
+                                                                    <select name="role" class="form-select" required>
+                                                                        <option value="Nurse">Nurse</option>
+                                                                        <option value="Ward Boy">Ward Boy</option>
+                                                                        <option value="Janitor">Janitor</option>
+                                                                        <option value="Receptionist">Receptionist
+                                                                        </option>
+                                                                        <option value="Pharmacist">Pharmacist</option>
+                                                                        <option value="Security">Security</option>
+                                                                    </select>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label
-                                                                        class="form-label small fw-medium text-secondary">Login
-                                                                        Email</label>
-                                                                    <input type="email" name="email"
-                                                                        class="form-control" required>
+                                                                        class="form-label small fw-medium text-secondary">Phone
+                                                                        Number</label>
+                                                                    <input type="text" name="phone" class="form-control"
+                                                                        required>
                                                                 </div>
-                                                                <div class="mb-3">
-                                                                    <label
-                                                                        class="form-label small fw-medium text-secondary">Initial
-                                                                        Password</label>
-                                                                    <input type="password" name="password"
-                                                                        class="form-control" required>
+                                                                <div class="row g-2 mb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label
+                                                                            class="form-label small fw-medium text-secondary">Assign
+                                                                            To</label>
+                                                                        <select name="assignedToType"
+                                                                            class="form-select" required>
+                                                                            <option value="WARD">Ward/Floor</option>
+                                                                            <option value="DEPT">Department</option>
+                                                                            <option value="GEN">General</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label
+                                                                            class="form-label small fw-medium text-secondary">Assign
+                                                                            ID</label>
+                                                                        <input type="number" name="assignedToId"
+                                                                            class="form-control" value="0">
+                                                                    </div>
                                                                 </div>
                                                                 <button type="submit"
                                                                     class="btn btn-primary w-100 py-2 mt-2">
-                                                                    <i data-lucide="plus-circle" class="me-1"
+                                                                    <i data-lucide="user-plus" class="me-1"
                                                                         style="width: 18px; height: 18px;"></i>
-                                                                    Create Staff Account
+                                                                    Register Staff
                                                                 </button>
                                                             </form>
                                                         </div>
@@ -161,9 +175,7 @@
                         </div>
                         <script
                             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-                        <script>
-                            lucide.createIcons();
-                        </script>
+                        <script>lucide.createIcons();</script>
                     </body>
 
                     </html>

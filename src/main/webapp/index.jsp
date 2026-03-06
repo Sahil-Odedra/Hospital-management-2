@@ -70,7 +70,7 @@
                                         <i data-lucide="mail" style="width: 18px; height: 18px;"></i>
                                     </span>
                                     <input type="email" class="form-control border-start-0 ps-0" id="email" name="email"
-                                        placeholder="name@company.com" required>
+                                        required>
                                 </div>
                             </div>
 
@@ -81,7 +81,7 @@
                                         <i data-lucide="lock" style="width: 18px; height: 18px;"></i>
                                     </span>
                                     <input type="password" class="form-control border-start-0 ps-0" id="password"
-                                        name="password" placeholder="••••••••" required>
+                                        name="password" required>
                                 </div>
                             </div>
 
@@ -96,4 +96,5 @@
             lucide.createIcons();
         </script>
     </body>
+
     </html>

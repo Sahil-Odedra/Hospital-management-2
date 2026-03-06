@@ -57,6 +57,60 @@
                             <span>Assign Appointment</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/admin/manage_appointments.jsp"
+                        class="nav-link <% if(request.getRequestURI().contains(" manage_appointments.jsp")) { %>active<%
+                            } %>">
+                            <i data-lucide="calendar-check"></i>
+                            <span>Appointment Directory</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/admin/manage_medicines.jsp"
+                        class="nav-link <% if(request.getRequestURI().contains(" manage_medicines.jsp")) { %>active<% }
+                            %>">
+                            <i data-lucide="pill"></i>
+                            <span>Pharmacy</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/admin/manage_beds.jsp"
+                        class="nav-link <% if(request.getRequestURI().contains(" manage_beds.jsp")) { %>active<% } %>">
+                            <i data-lucide="hotel"></i>
+                            <span>Manage Beds</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/admin/manage_staff.jsp"
+                        class="nav-link <% if(request.getRequestURI().contains(" manage_staff.jsp")) { %>active<% } %>">
+                            <i data-lucide="contact-2"></i>
+                            <span>Staff Registry</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/admin/manage_admissions.jsp"
+                        class="nav-link <% if(request.getRequestURI().contains(" manage_admissions.jsp")) { %>active<% }
+                            %>">
+                            <i data-lucide="hospital"></i>
+                            <span>IPD Admissions</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/admin/billing_catalog.jsp"
+                        class="nav-link <% if(request.getRequestURI().contains(" billing_catalog.jsp")) { %>active<% }
+                            %>">
+                            <i data-lucide="indian-rupee"></i>
+                            <span>Services & Billing</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/manage_reports.jsp"
+                        class="nav-link <% if(request.getRequestURI().contains(" manage_reports.jsp")) { %>active<% } %>
+                            ">
+                            <i data-lucide="file-text"></i>
+                            <span>Lab Reports</span>
+                    </a>
+                </li>
             </ul>
         </nav>
 

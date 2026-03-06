@@ -27,8 +27,6 @@
                                     <header class="d-flex justify-content-between align-items-center mb-5 animate-fade">
                                         <div>
                                             <h2 class="mb-1">Patient Records</h2>
-                                            <p class="text-secondary small mb-0">Maintain and manage patient database
-                                            </p>
                                         </div>
                                     </header>
 
@@ -66,13 +64,16 @@
                                                                                         PATIENT NAME</th>
                                                                                     <th
                                                                                         class="py-3 text-secondary small fw-semibold">
+                                                                                        VITAL STATS</th>
+                                                                                    <th
+                                                                                        class="py-3 text-secondary small fw-semibold">
                                                                                         CONTACT INFO</th>
                                                                                     <th
                                                                                         class="py-3 text-secondary small fw-semibold">
                                                                                         DATE OF BIRTH</th>
                                                                                     <th
                                                                                         class="py-3 text-secondary small fw-semibold text-end pe-4">
-                                                                                        STATUS</th>
+                                                                                        ACTIONS</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
@@ -96,6 +97,26 @@
                                                                                         <td>
                                                                                             <div
                                                                                                 class="small fw-medium">
+                                                                                                <span
+                                                                                                    class="badge bg-secondary-subtle text-secondary border-0">
+                                                                                                    <%= p.getGender() %>
+                                                                                                </span>
+                                                                                                <span
+                                                                                                    class="badge bg-danger-subtle text-danger border-0 ms-1">
+                                                                                                    <%= p.getBloodGroup()
+                                                                                                        %>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                            <div
+                                                                                                class="text-secondary small mt-1">
+                                                                                                <%= p.getWeight() %>kg |
+                                                                                                    <%= p.getHeight() %>
+                                                                                                        cm
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div
+                                                                                                class="small fw-medium">
                                                                                                 <%= p.getEmail() %>
                                                                                             </div>
                                                                                             <div
@@ -111,8 +132,19 @@
                                                                                             <%= p.getDob() %>
                                                                                         </td>
                                                                                         <td class="text-end pe-4">
-                                                                                            <span
-                                                                                                class="badge bg-success-subtle text-success px-2 py-1">Active</span>
+                                                                                            <a href="${pageContext.request.contextPath}/patient_history.jsp?patientId=<%= p.getId() %>"
+                                                                                                class="btn btn-link text-primary p-0 border-0 me-2"
+                                                                                                title="Clinical History">
+                                                                                                <i data-lucide="history"
+                                                                                                    style="width: 18px; height: 18px;"></i>
+                                                                                            </a>
+                                                                                            <button
+                                                                                                onclick="confirmDelete('<%= p.getId() %>')"
+                                                                                                class="btn btn-link text-danger p-0 border-0"
+                                                                                                title="Delete Patient">
+                                                                                                <i data-lucide="trash-2"
+                                                                                                    style="width: 18px; height: 18px;"></i>
+                                                                                            </button>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <% } %>
@@ -140,16 +172,14 @@
                                                                                 class="form-label small fw-medium text-secondary">Full
                                                                                 Name</label>
                                                                             <input type="text" name="fullName"
-                                                                                class="form-control"
-                                                                                placeholder="John Smith" required>
+                                                                                class="form-control" required>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label
                                                                                 class="form-label small fw-medium text-secondary">Email
                                                                                 Address</label>
                                                                             <input type="email" name="email"
-                                                                                class="form-control"
-                                                                                placeholder="john@example.com" required>
+                                                                                class="form-control" required>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label
@@ -157,6 +187,91 @@
                                                                                 Number</label>
                                                                             <input type="text" name="phone"
                                                                                 class="form-control" required>
+                                                                        </div>
+                                                                        <div class="row g-2 mb-3">
+                                                                            <div class="col-md-6">
+                                                                                <label
+                                                                                    class="form-label small fw-medium text-secondary">Gender</label>
+                                                                                <select name="gender"
+                                                                                    class="form-select" required>
+                                                                                    <option value="" disabled selected>
+                                                                                        Select</option>
+                                                                                    <option value="Male">Male</option>
+                                                                                    <option value="Female">Female
+                                                                                    </option>
+                                                                                    <option value="Other">Other</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label
+                                                                                    class="form-label small fw-medium text-secondary">Blood
+                                                                                    Group</label>
+                                                                                <select name="bloodGroup"
+                                                                                    class="form-select" required>
+                                                                                    <option value="" disabled selected>
+                                                                                        Select</option>
+                                                                                    <option value="A+">A+</option>
+                                                                                    <option value="A-">A-</option>
+                                                                                    <option value="B+">B+</option>
+                                                                                    <option value="B-">B-</option>
+                                                                                    <option value="O+">O+</option>
+                                                                                    <option value="O-">O-</option>
+                                                                                    <option value="AB+">AB+</option>
+                                                                                    <option value="AB-">AB-</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row g-2 mb-3">
+                                                                            <div class="col-md-6">
+                                                                                <label
+                                                                                    class="form-label small fw-medium text-secondary">Weight
+                                                                                    (kg)</label>
+                                                                                <input type="number" step="0.1"
+                                                                                    name="weight" class="form-control"
+                                                                                    placeholder="e.g. 70.5">
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label
+                                                                                    class="form-label small fw-medium text-secondary">Height
+                                                                                    (cm)</label>
+                                                                                <input type="number" step="0.1"
+                                                                                    name="height" class="form-control"
+                                                                                    placeholder="e.g. 175">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label
+                                                                                class="form-label small fw-medium text-secondary">Full
+                                                                                Address</label>
+                                                                            <textarea name="address"
+                                                                                class="form-control" rows="2"
+                                                                                placeholder="Street, City, PIN"></textarea>
+                                                                        </div>
+                                                                        <div class="row g-2 mb-3">
+                                                                            <div class="col-md-6">
+                                                                                <label
+                                                                                    class="form-label small fw-medium text-secondary">Emergency
+                                                                                    Name</label>
+                                                                                <input type="text"
+                                                                                    name="emergencyContactName"
+                                                                                    class="form-control">
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label
+                                                                                    class="form-label small fw-medium text-secondary">Emergency
+                                                                                    Phone</label>
+                                                                                <input type="text"
+                                                                                    name="emergencyContactPhone"
+                                                                                    class="form-control">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label
+                                                                                class="form-label small fw-medium text-secondary">Allergies
+                                                                                (if any)</label>
+                                                                            <input type="text" name="allergies"
+                                                                                class="form-control"
+                                                                                placeholder="e.g. Penicillin, Peanuts">
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label
@@ -184,6 +299,12 @@
                             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
                         <script>
                             lucide.createIcons();
+
+                            function confirmDelete(id) {
+                                if (confirm("Are you sure you want to delete this patient record? This action cannot be undone.")) {
+                                    window.location.href = "${pageContext.request.contextPath}/admin/deletePatient?id=" + id;
+                                }
+                            }
                         </script>
                     </body>
 

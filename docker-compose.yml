@@ -3,7 +3,31 @@ version: '3.8'
 services:
   app:
     build: .
+    image: careconnect:latest
     ports:
       - "8080:8080"
     container_name: careconnect_app
-    restart: on-failure
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASS=admin_pass
+      - DB_NAME=hospital
+
+  db:
+    image: mysql:8.0
+    container_name: careconnect_db
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin_pass
+      - MYSQL_DATABASE=hospital
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./full_setup.sql:/docker-entrypoint-initdb.d/full_setup.sql
+    ports:
+      - "3307:3306"
+
+volumes:
+  mysql_data:
