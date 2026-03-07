@@ -27,7 +27,6 @@ public class DatabaseRestorer {
             Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("Connecting to " + dbHost + " as " + dbUser + "...");
 
-            // Execute the consolidated setup script
             executeSqlFile(baseUrl, dbUser, dbPass, "full_setup.sql");
 
             System.out.println("\nSUCCESS: Database restoration completed!");
@@ -43,7 +42,6 @@ public class DatabaseRestorer {
                 Statement stmt = conn.createStatement();
                 BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
 
-            // Disable FK checks for clean reconstruction
             stmt.execute("SET FOREIGN_KEY_CHECKS = 0");
 
             StringBuilder sql = new StringBuilder();
@@ -53,7 +51,7 @@ public class DatabaseRestorer {
                 if (trimmed.isEmpty() || trimmed.startsWith("--") || trimmed.startsWith("/*"))
                     continue;
 
-                sql.append(line).append("\n"); // Preserving newlines for -- comment safety
+                sql.append(line).append("\n");
 
                 if (trimmed.endsWith(";")) {
                     String finalSql = sql.toString().trim();

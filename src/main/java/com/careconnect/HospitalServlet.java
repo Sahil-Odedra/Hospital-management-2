@@ -186,9 +186,8 @@ public class HospitalServlet extends HttpServlet {
             String dateTimeStr = dateStr + " " + timeStr;
             Timestamp appointmentTime = Timestamp.valueOf(dateTimeStr);
 
-            // Backend double-booking check
             List<String> bookedSlots = hospitalDAO.getBookedSlots(doctorId, dateStr);
-            String requestedTime = timeStr.substring(0, 8); // format "HH:mm:ss"
+            String requestedTime = timeStr.substring(0, 8);
             if (bookedSlots.contains(requestedTime)) {
                 resp.sendRedirect(req.getContextPath()
                         + "/admin/assign_appointment.jsp?error=This time slot is already booked for this doctor.");
@@ -205,11 +204,10 @@ public class HospitalServlet extends HttpServlet {
             boolean success = hospitalDAO.scheduleAppointment(appt);
 
             if (success) {
-                // Generate Consultation Bill automatically
                 Billing bill = new Billing();
                 bill.setPatientId(patientId);
                 bill.setAppointmentId(appt.getId());
-                bill.setTotalAmount(500.00); // Standard consultation fee
+                bill.setTotalAmount(500.00);
                 bill.setPaymentStatus("Pending");
                 int billId = hospitalDAO.generateBill(bill);
                 if (billId > 0) {
@@ -327,24 +325,20 @@ public class HospitalServlet extends HttpServlet {
                 return;
             }
 
-            // Calculate total amount
             double total = 0;
-            // 1. Bed charges
             long diffInMillies = Math.abs(System.currentTimeMillis() - admission.getAdmissionDate().getTime());
             long days = (diffInMillies / (1000 * 60 * 60 * 24)) + 1;
 
-            // Get bed details to get price
             Bed bed = hospitalDAO.getAllBeds().stream().filter(b -> b.getId() == admission.getBedId()).findFirst()
                     .orElse(null);
             double bedCharges = days * (bed != null ? bed.getPricePerDay() : 0);
             total += bedCharges;
 
-            // Generate Bill
             Billing bill = new Billing();
             bill.setPatientId(admission.getPatientId());
             bill.setAdmissionId(admissionId);
             bill.setPaymentStatus("Pending");
-            bill.setTotalAmount(total); // Initial total
+            bill.setTotalAmount(total);
 
             int billId = hospitalDAO.generateBill(bill);
             if (billId > 0) {
@@ -362,17 +356,15 @@ public class HospitalServlet extends HttpServlet {
                     }
                 }
 
-                // Deduct Admission Deposit
                 double deposit = admission.getDepositAmount();
                 if (deposit > 0) {
                     hospitalDAO.addBillingDetail(new BillingDetail(billId, "Less: Admission Deposit", -deposit));
                     total -= deposit;
                     if (total < 0) {
-                        total = 0; // Prevent negative bills if deposit exceeds final charges
+                        total = 0;
                     }
                 }
 
-                // Update final total in database
                 String updateSql = "UPDATE billing SET total_amount = ? WHERE id = ?";
                 try (java.sql.Connection conn = DBConnection.getConnection();
                         java.sql.PreparedStatement ps = conn.prepareStatement(updateSql)) {
