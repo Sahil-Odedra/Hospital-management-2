@@ -38,7 +38,7 @@
                                 <div class="row g-4 animate-fade" style="animation-delay: 0.1s;">
                                     <div class="col-md-3">
                                         <div class="stat-card h-100">
-                                            <div class="stat-icon" style="background: #eff6ff; color: #1d4ed8;">
+                                            <div class="stat-icon text-primary">
                                                 <i data-lucide="user-plus"></i>
                                             </div>
                                             <h4 class="text-secondary small fw-medium mb-1">Total Doctors</h4>
@@ -60,7 +60,7 @@
 
                                     <div class="col-md-3">
                                         <div class="stat-card h-100">
-                                            <div class="stat-icon" style="background: #fdf2f7; color: #be185d;">
+                                            <div class="stat-icon" style="color: #be185d;">
                                                 <i data-lucide="contacts"></i>
                                             </div>
                                             <h4 class="text-secondary small fw-medium mb-1">Total Patients</h4>
@@ -82,7 +82,7 @@
 
                                     <div class="col-md-3">
                                         <div class="stat-card h-100">
-                                            <div class="stat-icon" style="background: #fffbeb; color: #b45309;">
+                                            <div class="stat-icon text-warning">
                                                 <i data-lucide="clock"></i>
                                             </div>
                                             <h4 class="text-secondary small fw-medium mb-1">Pending Appointments</h4>
@@ -106,7 +106,7 @@
 
                                     <div class="col-md-3">
                                         <div class="stat-card h-100">
-                                            <div class="stat-icon" style="background: #f0fdf4; color: #15803d;">
+                                            <div class="stat-icon text-success">
                                                 <i data-lucide="pill"></i>
                                             </div>
                                             <h4 class="text-secondary small fw-medium mb-1">Pharmacy Inventory</h4>
