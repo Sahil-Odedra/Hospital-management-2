@@ -171,6 +171,36 @@ public class HospitalDAO {
         return null;
     }
 
+    public Patient patientLogin(String email, java.sql.Date dob) {
+        String sql = "SELECT * FROM patients WHERE email = ? AND dob = ?";
+        try (java.sql.Connection conn = DBConnection.getConnection();
+                java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ps.setDate(2, dob);
+            java.sql.ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Patient p = new Patient();
+                p.setId(rs.getInt("id"));
+                p.setFullName(rs.getString("full_name"));
+                p.setEmail(rs.getString("email"));
+                p.setPhone(rs.getString("phone"));
+                p.setDob(rs.getDate("dob"));
+                p.setGender(rs.getString("gender"));
+                p.setBloodGroup(rs.getString("blood_group"));
+                p.setWeight(rs.getDouble("weight"));
+                p.setHeight(rs.getDouble("height"));
+                p.setAddress(rs.getString("address"));
+                p.setEmergencyContactName(rs.getString("emergency_contact_name"));
+                p.setEmergencyContactPhone(rs.getString("emergency_contact_phone"));
+                p.setAllergies(rs.getString("allergies"));
+                return p;
+            }
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public boolean scheduleAppointment(Appointment appt) {
         String sql = "INSERT INTO appointments (doctor_id, patient_id, appointment_time, admin_notes, status) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
@@ -1108,5 +1138,81 @@ public class HospitalDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Appointment> getAppointmentsByPatientId(int patientId) {
+        List<Appointment> list = new ArrayList<>();
+        String sql = "SELECT a.*, d.full_name as doctor_name FROM appointments a JOIN users d ON a.doctor_id = d.id WHERE a.patient_id = ? ORDER BY a.appointment_time DESC";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, patientId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Appointment a = new Appointment();
+                a.setId(rs.getInt("id"));
+                a.setDoctorId(rs.getInt("doctor_id"));
+                a.setPatientId(rs.getInt("patient_id"));
+                a.setAppointmentTime(rs.getTimestamp("appointment_time"));
+                a.setStatus(rs.getString("status"));
+                a.setAdminNotes(rs.getString("admin_notes"));
+                a.setDoctorName(rs.getString("doctor_name"));
+                list.add(a);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Admission> getAdmissionsByPatientId(int patientId) {
+        List<Admission> list = new ArrayList<>();
+        String sql = "SELECT * FROM admissions WHERE patient_id = ? ORDER BY admission_date DESC";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, patientId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Admission a = new Admission();
+                a.setId(rs.getInt("id"));
+                a.setPatientId(rs.getInt("patient_id"));
+                a.setBedId(rs.getInt("bed_id"));
+                a.setDoctorId(rs.getInt("doctor_id"));
+                a.setAdmissionDate(rs.getTimestamp("admission_date"));
+                a.setDischargeDate(rs.getTimestamp("discharge_date"));
+                a.setInsuranceName(rs.getString("insurance_name"));
+                a.setDepositAmount(rs.getDouble("deposit_amount"));
+                a.setStatus(rs.getString("status"));
+                a.setDischargeSummary(rs.getString("discharge_summary"));
+                list.add(a);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<PatientReport> getReportsByPatientId(int patientId) {
+        List<PatientReport> list = new ArrayList<>();
+        String sql = "SELECT pr.*, b.item_name as test_name FROM patient_reports pr JOIN billing_catalog b ON pr.test_id = b.id WHERE pr.patient_id = ? ORDER BY pr.report_date DESC";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, patientId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                PatientReport pr = new PatientReport();
+                pr.setId(rs.getInt("id"));
+                pr.setPatientId(rs.getInt("patient_id"));
+                pr.setAdmissionId(rs.getInt("admission_id"));
+                pr.setAppointmentId(rs.getInt("appointment_id"));
+                pr.setTestId(rs.getInt("test_id"));
+                pr.setFindings(rs.getString("findings"));
+                pr.setReportDate(rs.getTimestamp("report_date"));
+                pr.setTestName(rs.getString("test_name"));
+                list.add(pr);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

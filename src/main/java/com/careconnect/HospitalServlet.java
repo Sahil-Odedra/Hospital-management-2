@@ -16,7 +16,8 @@ import java.sql.Timestamp;
         "/admin/addDoctor", "/admin/addPatient", "/admin/assignAppointment", "/admin/deleteDoctor",
         "/admin/deletePatient", "/admin/addBed", "/admin/addStaff", "/admin/admitPatient",
         "/admin/dischargePatient", "/admin/addBillingItem", "/admin/addReport", "/admin/addMedicine",
-        "/admin/updateAppointmentStatus", "/admin/getBookedSlots" })
+        "/admin/updateAppointmentStatus", "/admin/getBookedSlots", "/patient/login", "/patient/logout",
+        "/patient/bookAppointment" })
 public class HospitalServlet extends HttpServlet {
 
     private HospitalDAO hospitalDAO = new HospitalDAO();
@@ -27,6 +28,10 @@ public class HospitalServlet extends HttpServlet {
 
         if ("/auth/login".equals(action)) {
             handleLogin(req, resp);
+        } else if ("/patient/login".equals(action)) {
+            handlePatientLogin(req, resp);
+        } else if ("/patient/bookAppointment".equals(action)) {
+            handlePatientSelfBooking(req, resp);
         } else {
             HttpSession session = req.getSession(false);
             User currentUser = null;
@@ -71,6 +76,8 @@ public class HospitalServlet extends HttpServlet {
 
         if ("/auth/logout".equals(action)) {
             handleLogout(req, resp);
+        } else if ("/patient/logout".equals(action)) {
+            handlePatientLogout(req, resp);
         } else if ("/admin/deleteDoctor".equals(action)) {
             handleDeleteDoctor(req, resp);
         } else if ("/admin/deletePatient".equals(action)) {
@@ -456,6 +463,81 @@ public class HospitalServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/admin/manage_appointments.jsp?success=Status Updated");
         } else {
             resp.sendRedirect(req.getContextPath() + "/admin/manage_appointments.jsp?error=Update Failed");
+        }
+    }
+
+    private void handlePatientLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String email = req.getParameter("email");
+        String dobStr = req.getParameter("dob");
+        if (email == null || dobStr == null || email.trim().isEmpty() || dobStr.trim().isEmpty()) {
+            resp.sendRedirect(req.getContextPath() + "/patient.jsp?error=Email and Date of Birth are required");
+            return;
+        }
+
+        try {
+            Date dob = Date.valueOf(dobStr);
+            Patient patient = hospitalDAO.patientLogin(email, dob);
+
+            if (patient != null) {
+                HttpSession session = req.getSession();
+                session.setAttribute("patientUser", patient);
+                resp.sendRedirect(req.getContextPath() + "/patient.jsp");
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/patient.jsp?error=Invalid Email or Date of Birth");
+            }
+        } catch (IllegalArgumentException e) {
+            resp.sendRedirect(req.getContextPath() + "/patient.jsp?error=Invalid Date Format");
+        }
+    }
+
+    private void handlePatientLogout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            session.removeAttribute("patientUser");
+        }
+        resp.sendRedirect(req.getContextPath() + "/patient.jsp");
+    }
+
+    private void handlePatientSelfBooking(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession session = req.getSession(false);
+        Patient patientUser = (session != null) ? (Patient) session.getAttribute("patientUser") : null;
+        if (patientUser == null) {
+            resp.sendRedirect(req.getContextPath() + "/patient.jsp?error=Unauthorized");
+            return;
+        }
+
+        try {
+            int patientId = patientUser.getId();
+            int doctorId = Integer.parseInt(req.getParameter("doctorId"));
+            String dateStr = req.getParameter("appointmentDate");
+            String timeStr = req.getParameter("appointmentTime");
+
+            String dateTimeStr = dateStr + " " + timeStr;
+            Timestamp appointmentTime = Timestamp.valueOf(dateTimeStr);
+
+            List<String> bookedSlots = hospitalDAO.getBookedSlots(doctorId, dateStr);
+            String requestedTime = timeStr.substring(0, 8);
+            if (bookedSlots.contains(requestedTime)) {
+                resp.sendRedirect(req.getContextPath() + "/patient.jsp?error=This time slot is already booked.");
+                return;
+            }
+
+            if (appointmentTime.before(new Timestamp(System.currentTimeMillis()))) {
+                resp.sendRedirect(req.getContextPath() + "/patient.jsp?error=Appointment time cannot be in the past");
+                return;
+            }
+
+            Appointment appt = new Appointment(doctorId, patientId, appointmentTime, "Patient self-booked via portal");
+            boolean success = hospitalDAO.scheduleAppointment(appt);
+
+            if (success) {
+                resp.sendRedirect(req.getContextPath() + "/patient.jsp?success=Appointment successfully scheduled.");
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/patient.jsp?error=Scheduling failed. Please try again.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendRedirect(req.getContextPath() + "/patient.jsp?error=Error processing booking");
         }
     }
 }
