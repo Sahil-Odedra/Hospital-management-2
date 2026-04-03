@@ -27,6 +27,18 @@
                                 .medicine-row:hover {
                                     background-color: #f8f9fa;
                                 }
+                                /* Fix for dosage number inputs */
+                                input[type="number"].form-control-sm {
+                                    padding: 0.25rem 0.4rem;
+                                    min-width: 40px;
+                                }
+                                /* Hide spinners so numbers fit */
+                                input[type="number"]::-webkit-inner-spin-button, 
+                                input[type="number"]::-webkit-outer-spin-button { 
+                                    -webkit-appearance: none; 
+                                    margin: 0; 
+                                }
+                                input[type="number"] { -moz-appearance: textfield; }
                             </style>
                         </head>
 

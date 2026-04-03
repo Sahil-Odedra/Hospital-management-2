@@ -31,7 +31,7 @@ public class DBConnection {
         } else {
             String dbHost = System.getenv("DB_HOST");
             if (dbHost == null || dbHost.isEmpty()) {
-                dbHost = "34.35.125.240";
+                dbHost = "34.21.144.67";
             }
             URL = String.format("jdbc:mysql://%s:3306/%s?useSSL=false&allowPublicKeyRetrieval=true", dbHost, database);
         }

@@ -71,11 +71,22 @@ public class PrescriptionServlet extends HttpServlet {
             String sqlUpdateStock = "UPDATE medicines SET current_stock = current_stock - ? WHERE id = ? AND current_stock >= ?";
             psUpdateStock = conn.prepareStatement(sqlUpdateStock);
 
+            String sqlGetFee = "SELECT price_per_unit FROM medicines WHERE id = ?";
+            psGetFee = conn.prepareStatement(sqlGetFee);
+            
+            double totalAmount = 500.0; // Base Doctor Consultation Fee
+
             if (medicineIds != null) {
                 for (int i = 0; i < medicineIds.length; i++) {
                     int medId = Integer.parseInt(medicineIds[i]);
                     if (medId > 0) {
                         int qty = Integer.parseInt(quantities[i]);
+
+                        psGetFee.setInt(1, medId);
+                        ResultSet rsFee = psGetFee.executeQuery();
+                        if (rsFee.next()) {
+                            totalAmount += (rsFee.getDouble(1) * qty);
+                        }
 
                         psDetails.setInt(1, prescriptionId);
                         psDetails.setInt(2, medId);
@@ -100,7 +111,15 @@ public class PrescriptionServlet extends HttpServlet {
                 psDetails.executeBatch();
             }
 
-            // 3. Update appointment status to 'COMPLETED'
+            // 3. Insert into Billing Table
+            String sqlBilling = "INSERT INTO billing (patient_id, appointment_id, total_amount, payment_status) VALUES (?, ?, ?, 'Unpaid')";
+            psBilling = conn.prepareStatement(sqlBilling);
+            psBilling.setInt(1, patientId);
+            psBilling.setInt(2, appointmentId);
+            psBilling.setDouble(3, totalAmount);
+            psBilling.executeUpdate();
+
+            // 4. Update appointment status to 'COMPLETED'
             String sqlUpdateAppt = "UPDATE appointments SET status = 'COMPLETED' WHERE id = ?";
             psAppt = conn.prepareStatement(sqlUpdateAppt);
             psAppt.setInt(1, appointmentId);

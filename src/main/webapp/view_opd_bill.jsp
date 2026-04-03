@@ -4,13 +4,17 @@
             <%@ page import="java.text.SimpleDateFormat" %>
                 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
                     <% User user=(User) session.getAttribute("user"); if (user==null) {
-                        response.sendRedirect(request.getContextPath() + "/index.jsp" ); return; } int
-                        appointmentId=Integer.parseInt(request.getParameter("appointmentId")); HospitalDAO dao=new
-                        HospitalDAO(); // Fetch Billing first Billing bill=dao.getBillByAppointment(appointmentId); if
-                        (bill==null) { out.println("<div class='container py-5 text-center'>
-                        <h3>Bill not generated yet.</h3>
-                        <p>Completion of prescription is required.</p>
-                        </div>"); return;
+                        response.sendRedirect(request.getContextPath() + "/index.jsp" ); return; } 
+                        int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+                        HospitalDAO dao = new HospitalDAO(); 
+                        // Fetch Billing first 
+                        Billing bill = dao.getBillByAppointment(appointmentId); 
+                        if (bill == null) { 
+                            out.println("<div class='container py-5 text-center'>" +
+                                        "<h3>Bill not generated yet.</h3>" +
+                                        "<p>Completion of prescription is required.</p>" +
+                                        "</div>"); 
+                            return;
                         }
 
                         List<Prescription> prescriptions = dao.getPrescriptionsByAppointment(appointmentId);
@@ -139,10 +143,17 @@
                                                                         appointmentId %>
                                                                 </div>
                                                             </td>
-                                                            <td class="text-end pe-0 fw-bold">₹<%= bill.getTotalAmount()
-                                                                    %>
-                                                            </td>
+                                                            <td class="text-end pe-0 fw-bold">₹500.0</td>
                                                         </tr>
+                                                        <% if(bill.getTotalAmount() > 500.0) { %>
+                                                        <tr>
+                                                            <td class="ps-0">
+                                                                <div class="fw-bold">Pharmacy & Medicines</div>
+                                                                <div class="small text-secondary">Cost of newly prescribed items</div>
+                                                            </td>
+                                                            <td class="text-end pe-0 fw-bold">₹<%= bill.getTotalAmount() - 500.0 %></td>
+                                                        </tr>
+                                                        <% } %>
                                                     </tbody>
                                                 </table>
                                             </div>
