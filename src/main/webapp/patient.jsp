@@ -290,7 +290,7 @@
                                                                                         <label
                                                                                             class="form-label small fw-medium">Select
                                                                                             Doctor</label>
-                                                                                        <select name="doctorId"
+                                                                                        <select name="doctorId" id="doctorId"
                                                                                             class="form-select"
                                                                                             required>
                                                                                             <option value="">Choose...
@@ -310,18 +310,28 @@
                                                                                     <div class="mb-3">
                                                                                         <label
                                                                                             class="form-label small fw-medium">Date</label>
-                                                                                        <input type="date"
+                                                                                        <input type="date" id="appointmentDate"
                                                                                             name="appointmentDate"
                                                                                             class="form-control"
+                                                                                            min="<%= java.time.LocalDate.now() %>"
                                                                                             required>
                                                                                     </div>
                                                                                     <div class="mb-3">
                                                                                         <label
                                                                                             class="form-label small fw-medium">Time</label>
-                                                                                        <input type="time"
-                                                                                            name="appointmentTime"
-                                                                                            class="form-control"
-                                                                                            required>
+                                                                                        <select name="appointmentTime" id="appointmentTime" class="form-select" required>
+                                                                                            <option value="">Select Time...</option>
+                                                                                            <% String[] hours={"09", "10", "11", "12", "13", "14", "15", "16", "17"};
+                                                                                               String[] mins={"00", "30"};
+                                                                                               for(String h : hours) {
+                                                                                                   for(String m : mins) {
+                                                                                                       String tVal=h + ":" + m + ":00" ;
+                                                                                                       int hh=Integer.parseInt(h);
+                                                                                                       String displayT=(hh > 12 ? (hh-12) : hh) + ":" + m + (hh >= 12 ? " PM" : " AM");
+                                                                                            %>
+                                                                                                <option value="<%= tVal %>"><%= displayT %></option>
+                                                                                            <% } } %>
+                                                                                        </select>
                                                                                     </div>
                                                                                     <button type="submit"
                                                                                         class="btn btn-success w-100 py-2 rounded-3">Confirm
@@ -483,9 +493,61 @@
                                                                 </div>
 
                                                                 <!-- Scripts -->
-                                                                <script
-                                                                    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                                                                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
                                                                 <script>lucide.createIcons();</script>
+                                                                <script>
+                                                                    const doctorSelect = document.getElementById('doctorId');
+                                                                    const dateInput = document.getElementById('appointmentDate');
+                                                                    const timeSelect = document.getElementById('appointmentTime');
+
+                                                                    async function updateAvailableSlots() {
+                                                                        if(!doctorSelect || !dateInput || !timeSelect) return;
+                                                                        const doctorId = doctorSelect.value;
+                                                                        const date = dateInput.value;
+
+                                                                        if (!doctorId || !date) {
+                                                                            Array.from(timeSelect.options).forEach(option => {
+                                                                                option.disabled = false;
+                                                                                option.style.backgroundColor = "";
+                                                                                if(option.text.includes(' (Booked)')) {
+                                                                                    option.text = option.text.split(' (Booked)')[0];
+                                                                                }
+                                                                            });
+                                                                            return;
+                                                                        }
+
+                                                                        try {
+                                                                            const response = await fetch(`${pageContext.request.contextPath}/admin/getBookedSlots?doctorId=` + doctorId + '&date=' + date);
+                                                                            const bookedSlotsText = await response.text();
+                                                                            const bookedSlots = bookedSlotsText ? bookedSlotsText.split(',') : [];
+
+                                                                            Array.from(timeSelect.options).forEach(option => {
+                                                                                if (option.value === "") return;
+
+                                                                                if (bookedSlots.includes(option.value)) {
+                                                                                    option.disabled = true;
+                                                                                    option.style.backgroundColor = "#fee2e2";
+                                                                                    if (!option.text.includes('(Booked)')) {
+                                                                                        option.text = option.text + " (Booked)";
+                                                                                    }
+                                                                                } else {
+                                                                                    option.disabled = false;
+                                                                                    option.style.backgroundColor = "";
+                                                                                    if(option.text.includes(' (Booked)')) {
+                                                                                       option.text = option.text.replace(" (Booked)", "");
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                        } catch (error) {
+                                                                            console.error('Error fetching booked slots:', error);
+                                                                        }
+                                                                    }
+
+                                                                    if(doctorSelect && dateInput) {
+                                                                        doctorSelect.addEventListener('change', updateAvailableSlots);
+                                                                        dateInput.addEventListener('change', updateAvailableSlots);
+                                                                    }
+                                                                </script>
                                                                 <% if (currentUser !=null) { %>
                                                                     <script>
                                                                         // Chatbot Integration Logic

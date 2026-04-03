@@ -20,15 +20,6 @@
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark shadow border-0 small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item py-2" href="${pageContext.request.contextPath}/doctor/dashboard.jsp">
-                            <i data-lucide="layout-dashboard" class="me-2" style="width: 14px; height: 14px;"></i>
-                            Dashboard
-                        </a></li>
-                    <li><a class="dropdown-item py-2"
-                            href="${pageContext.request.contextPath}/doctor/appointment_history.jsp">
-                            <i data-lucide="history" class="me-2" style="width: 14px; height: 14px;"></i>
-                            Medical History
-                        </a></li>
                     <li><a class="dropdown-item py-2" href="${pageContext.request.contextPath}/auth/logout">
                             <i data-lucide="log-out" class="me-2" style="width: 14px; height: 14px;"></i>
                             Sign out
@@ -41,9 +32,16 @@
             <ul class="nav flex-column gap-1">
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/doctor/dashboard.jsp"
-                        class="nav-link <% if(request.getRequestURI().contains(" dashboard.jsp")) { %>active<% } %>">
+                        class="nav-link <% if(request.getRequestURI().contains("dashboard.jsp")) { %>active<% } %>">
                             <i data-lucide="layout-dashboard"></i>
                             <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/doctor/appointment_history.jsp"
+                        class="nav-link <% if(request.getRequestURI().contains("appointment_history.jsp")) { %>active<% } %>">
+                            <i data-lucide="history"></i>
+                            <span>Medical History</span>
                     </a>
                 </li>
                 <li class="nav-item">

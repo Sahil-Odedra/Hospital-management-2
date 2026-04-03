@@ -190,11 +190,15 @@ public class HospitalServlet extends HttpServlet {
             String timeStr = req.getParameter("appointmentTime");
             String notes = req.getParameter("adminNotes");
 
+            if (timeStr != null && timeStr.length() == 5) {
+                timeStr += ":00";
+            }
+
             String dateTimeStr = dateStr + " " + timeStr;
             Timestamp appointmentTime = Timestamp.valueOf(dateTimeStr);
 
             List<String> bookedSlots = hospitalDAO.getBookedSlots(doctorId, dateStr);
-            String requestedTime = timeStr.substring(0, 8);
+            String requestedTime = timeStr;
             if (bookedSlots.contains(requestedTime)) {
                 resp.sendRedirect(req.getContextPath()
                         + "/admin/assign_appointment.jsp?error=This time slot is already booked for this doctor.");
@@ -512,11 +516,15 @@ public class HospitalServlet extends HttpServlet {
             String dateStr = req.getParameter("appointmentDate");
             String timeStr = req.getParameter("appointmentTime");
 
+            if (timeStr != null && timeStr.length() == 5) {
+                timeStr += ":00";
+            }
+
             String dateTimeStr = dateStr + " " + timeStr;
             Timestamp appointmentTime = Timestamp.valueOf(dateTimeStr);
 
             List<String> bookedSlots = hospitalDAO.getBookedSlots(doctorId, dateStr);
-            String requestedTime = timeStr.substring(0, 8);
+            String requestedTime = timeStr;
             if (bookedSlots.contains(requestedTime)) {
                 resp.sendRedirect(req.getContextPath() + "/patient.jsp?error=This time slot is already booked.");
                 return;
