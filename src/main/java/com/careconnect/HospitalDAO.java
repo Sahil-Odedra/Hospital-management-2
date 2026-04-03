@@ -1190,7 +1190,7 @@ public class HospitalDAO {
         }
         return list;
     }
-
+//asd
     public List<PatientReport> getReportsByPatientId(int patientId) {
         List<PatientReport> list = new ArrayList<>();
         String sql = "SELECT pr.*, b.item_name as test_name FROM patient_reports pr JOIN billing_catalog b ON pr.test_id = b.id WHERE pr.patient_id = ? ORDER BY pr.report_date DESC";
