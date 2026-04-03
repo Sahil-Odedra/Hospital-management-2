@@ -161,7 +161,7 @@
                         container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
 
                         try {
-                            const response = await fetch(`getPrescriptionHistory?appointmentId=${apptId}`);
+                            const response = await fetch('getPrescriptionHistory?appointmentId=' + apptId);
                             const data = await response.text();
                             container.innerHTML = data;
                             lucide.createIcons();

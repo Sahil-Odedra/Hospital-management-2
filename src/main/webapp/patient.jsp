@@ -25,10 +25,34 @@
                                 background: #fff;
                                 border-radius: 12px;
                                 box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-                                display: flex;
+                                display: none;
                                 flex-direction: column;
                                 overflow: hidden;
                                 z-index: 1000;
+                            }
+                            .chat-widget.active {
+                                display: flex;
+                            }
+                            .chat-toggle-btn {
+                                position: fixed;
+                                bottom: 20px;
+                                right: 20px;
+                                width: 60px;
+                                height: 60px;
+                                border-radius: 50%;
+                                background-color: #2563eb;
+                                color: white;
+                                border: none;
+                                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+                                z-index: 1001;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                cursor: pointer;
+                                transition: transform 0.2s;
+                            }
+                            .chat-toggle-btn:hover {
+                                transform: scale(1.05);
                             }
 
                             .chat-header {
@@ -427,11 +451,16 @@
                                                                 </div>
 
                                                                 <!-- Chatbot Widget -->
-                                                                <div class="chat-widget">
+                                                                <!-- Chatbot Widget -->
+                                                                <button class="chat-toggle-btn" id="chatToggleBtn" onclick="toggleChat()">
+                                                                    <i data-lucide="message-square" style="width: 28px; height: 28px;"></i>
+                                                                </button>
+                                                                <div class="chat-widget" id="chatWidget">
                                                                     <div class="chat-header">
                                                                         <span class="d-flex align-items-center gap-2"><i
                                                                                 data-lucide="bot"></i> CareConnect
                                                                             Assistant</span>
+                                                                        <button onclick="closeChat()" class="btn-close btn-close-white" style="font-size: 0.8rem;"></button>
                                                                     </div>
                                                                     <div class="chat-body" id="chatBody">
                                                                         <div class="msg msg-bot">Hello <%=
@@ -468,6 +497,19 @@
                                                                             if (e.key === 'Enter') {
                                                                                 sendMessage();
                                                                             }
+                                                                        }
+
+                                                                        function toggleChat() {
+                                                                            document.getElementById('chatWidget').classList.toggle('active');
+                                                                            if(document.getElementById('chatWidget').classList.contains('active')) {
+                                                                               document.getElementById('chatToggleBtn').style.display = 'none';
+                                                                               chatInput.focus();
+                                                                            }
+                                                                        }
+
+                                                                        function closeChat() {
+                                                                            document.getElementById('chatWidget').classList.remove('active');
+                                                                            document.getElementById('chatToggleBtn').style.display = 'flex';
                                                                         }
 
                                                                         async function sendMessage() {
