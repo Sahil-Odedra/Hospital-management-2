@@ -112,7 +112,7 @@ public class PrescriptionServlet extends HttpServlet {
             }
 
             // 3. Insert into Billing Table
-            String sqlBilling = "INSERT INTO billing (patient_id, appointment_id, total_amount, payment_status) VALUES (?, ?, ?, 'Unpaid')";
+            String sqlBilling = "INSERT INTO billing (patient_id, appointment_id, total_amount, payment_status) VALUES (?, ?, ?, 'Pending')";
             psBilling = conn.prepareStatement(sqlBilling);
             psBilling.setInt(1, patientId);
             psBilling.setInt(2, appointmentId);
