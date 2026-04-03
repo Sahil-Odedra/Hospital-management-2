@@ -1193,7 +1193,7 @@ public class HospitalDAO {
 //asd
     public List<PatientReport> getReportsByPatientId(int patientId) {
         List<PatientReport> list = new ArrayList<>();
-        String sql = "SELECT pr.*, b.item_name as test_name FROM patient_reports pr JOIN billing_catalog b ON pr.test_id = b.id WHERE pr.patient_id = ? ORDER BY pr.report_date DESC";
+        String sql = "SELECT pr.*, b.item_name as test_name FROM patient_reports pr JOIN billing_catalog b ON pr.test_id = b.id WHERE pr.patient_id = ? ORDER BY pr.test_date DESC";
         try (Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, patientId);
@@ -1206,7 +1206,7 @@ public class HospitalDAO {
                 pr.setAppointmentId(rs.getInt("appointment_id"));
                 pr.setTestId(rs.getInt("test_id"));
                 pr.setFindings(rs.getString("findings"));
-                pr.setReportDate(rs.getTimestamp("report_date"));
+                pr.setTestDate(rs.getTimestamp("test_date"));
                 pr.setTestName(rs.getString("test_name"));
                 list.add(pr);
             }
