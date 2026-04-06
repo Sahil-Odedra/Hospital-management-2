@@ -119,14 +119,10 @@
                                                                         class="form-label small fw-medium text-secondary">Category</label>
                                                                     <select name="category" class="form-select"
                                                                         required>
-                                                                        <option value="Consultation">Consultation
-                                                                        </option>
-                                                                        <option value="Lab Test">Lab Test</option>
-                                                                        <option value="Radiology">Radiology</option>
-                                                                        <option value="Procedure">Procedure</option>
-                                                                        <option value="Ward Charge">Ward Charge</option>
-                                                                        <option value="Emergency">Emergency</option>
-                                                                        <option value="Other">Other</option>
+                                                                        <option value="Select" disabled selected>Select Category</option>
+                                                                        <option value="Equipment">Equipment</option>
+                                                                        <option value="Service">Service</option>
+                                                                        <option value="Test">Test</option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="mb-3">
