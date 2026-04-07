@@ -145,6 +145,11 @@
                                         <a href="${pageContext.request.contextPath}/patient/logout"
                                             class="btn btn-outline-danger btn-sm">Logout</a>
                                     </div>
+                                    <% } else { %>
+                                        <a href="index.jsp" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-2 fw-medium shadow-sm bg-white">
+                                            <i data-lucide="shield-check" style="width: 16px;"></i>
+                                            Staff Login
+                                        </a>
                                     <% } %>
                             </div>
                         </nav>
@@ -221,11 +226,7 @@
                                                                         class="btn btn-primary w-100 py-2 fw-medium rounded-3">Access
                                                                         My Records</button>
                                                                 </form>
-                                                                <div class="text-center mt-4">
-                                                                    <a href="index.jsp"
-                                                                        class="text-decoration-none small text-muted">Return
-                                                                        to Main Website</a>
-                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>

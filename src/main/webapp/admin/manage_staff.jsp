@@ -88,11 +88,12 @@
                                                                                             </span>
                                                                                 </td>
                                                                                 <td class="text-end pe-4">
-                                                                                    <button
-                                                                                        class="btn btn-sm btn-outline-danger border-0">
-                                                                                        <i data-lucide="user-minus"
+                                                                                    <a href="${pageContext.request.contextPath}/admin/deleteStaff?id=<%= s.getId() %>" 
+                                                                                       class="btn btn-sm btn-outline-danger border-0" 
+                                                                                       onclick="return confirm('Are you sure you want to remove this staff member?')">
+                                                                                        <i data-lucide="trash-2"
                                                                                             style="width: 16px; height: 16px;"></i>
-                                                                                    </button>
+                                                                                    </a>
                                                                                 </td>
                                                                             </tr>
                                                                             <% } %>

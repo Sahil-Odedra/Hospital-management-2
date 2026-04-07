@@ -106,11 +106,12 @@
                                                                                                 <% } %>
                                                                                 </td>
                                                                                 <td class="text-end pe-4">
-                                                                                    <button
-                                                                                        class="btn btn-sm btn-outline-secondary border-0">
-                                                                                        <i data-lucide="more-vertical"
+                                                                                    <a href="${pageContext.request.contextPath}/admin/deleteBed?id=<%= b.getId() %>" 
+                                                                                       class="btn btn-sm btn-outline-danger border-0"
+                                                                                       onclick="return confirm('Are you sure you want to delete this bed?')">
+                                                                                        <i data-lucide="trash-2"
                                                                                             style="width: 16px; height: 16px;"></i>
-                                                                                    </button>
+                                                                                    </a>
                                                                                 </td>
                                                                             </tr>
                                                                             <% } %>

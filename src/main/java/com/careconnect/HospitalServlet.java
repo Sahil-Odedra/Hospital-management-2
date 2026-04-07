@@ -16,7 +16,8 @@ import java.sql.Timestamp;
         "/admin/addDoctor", "/admin/addPatient", "/admin/assignAppointment", "/admin/deleteDoctor",
         "/admin/deletePatient", "/admin/addBed", "/admin/addStaff", "/admin/admitPatient",
         "/admin/dischargePatient", "/admin/addBillingItem", "/admin/addReport", "/admin/addMedicine",
-        "/admin/updateAppointmentStatus", "/admin/getBookedSlots", "/patient/login", "/patient/logout",
+        "/admin/updateAppointmentStatus", "/admin/getBookedSlots", "/admin/deleteStaff",
+        "/admin/deleteBed", "/admin/deleteBillingItem", "/patient/login", "/patient/logout",
         "/patient/bookAppointment" })
 public class HospitalServlet extends HttpServlet {
 
@@ -82,6 +83,12 @@ public class HospitalServlet extends HttpServlet {
             handleDeleteDoctor(req, resp);
         } else if ("/admin/deletePatient".equals(action)) {
             handleDeletePatient(req, resp);
+        } else if ("/admin/deleteStaff".equals(action)) {
+            handleDeleteStaff(req, resp);
+        } else if ("/admin/deleteBed".equals(action)) {
+            handleDeleteBed(req, resp);
+        } else if ("/admin/deleteBillingItem".equals(action)) {
+            handleDeleteBillingItem(req, resp);
         } else if ("/admin/getBookedSlots".equals(action)) {
             handleGetBookedSlots(req, resp);
         } else {
@@ -276,6 +283,48 @@ public class HospitalServlet extends HttpServlet {
             }
         } catch (Exception e) {
             resp.sendRedirect(req.getContextPath() + "/admin/manage_patients.jsp?error=Invalid ID");
+        }
+    }
+
+    private void handleDeleteStaff(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            int id = Integer.parseInt(req.getParameter("id"));
+            boolean success = hospitalDAO.deleteStaff(id);
+            if (success) {
+                resp.sendRedirect(req.getContextPath() + "/admin/manage_staff.jsp?success=Staff Deleted");
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/admin/manage_staff.jsp?error=Delete Failed");
+            }
+        } catch (Exception e) {
+            resp.sendRedirect(req.getContextPath() + "/admin/manage_staff.jsp?error=Invalid ID");
+        }
+    }
+
+    private void handleDeleteBed(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            int id = Integer.parseInt(req.getParameter("id"));
+            boolean success = hospitalDAO.deleteBed(id);
+            if (success) {
+                resp.sendRedirect(req.getContextPath() + "/admin/manage_beds.jsp?success=Bed Deleted");
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/admin/manage_beds.jsp?error=Delete Failed");
+            }
+        } catch (Exception e) {
+            resp.sendRedirect(req.getContextPath() + "/admin/manage_beds.jsp?error=Invalid ID");
+        }
+    }
+
+    private void handleDeleteBillingItem(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            int id = Integer.parseInt(req.getParameter("id"));
+            boolean success = hospitalDAO.deleteBillingCatalogItem(id);
+            if (success) {
+                resp.sendRedirect(req.getContextPath() + "/admin/billing_catalog.jsp?success=Item Deleted");
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/admin/billing_catalog.jsp?error=Delete Failed");
+            }
+        } catch (Exception e) {
+            resp.sendRedirect(req.getContextPath() + "/admin/billing_catalog.jsp?error=Invalid ID");
         }
     }
 

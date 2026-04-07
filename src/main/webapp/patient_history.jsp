@@ -271,9 +271,7 @@
                                                                                             &&
                                                                                             !appt.getAdminNotes().trim().isEmpty()
                                                                                             ? appt.getAdminNotes()
-                                                                                            : "<span class=\" text-muted
-                                                                                            fst-italic\">No notes
-                                                                                            recorded</span>" %>
+                                                                                            : "<span class='text-muted fst-italic'>No notes recorded</span>" %>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-sm-6">
