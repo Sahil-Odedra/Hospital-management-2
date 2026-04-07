@@ -14,6 +14,13 @@
     </head>
 
     <body class="bg-light">
+        <!-- Patient Login Link -->
+        <div class="position-absolute top-0 end-0 p-3 m-2 z-3">
+            <a href="patient.jsp" class="btn btn-outline-primary d-flex align-items-center gap-2 fw-medium shadow-sm bg-white">
+                <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+                Patient Login
+            </a>
+        </div>
         <style>
             .login-container {
                 min-height: 100vh;

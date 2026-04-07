@@ -189,10 +189,21 @@
                                                                                                             <td
                                                                                                                 class="text-end pe-4">
                                                                                                                 <% if(!"COMPLETED".equals(appt.getStatus()))
-                                                                                                                    { %>
+                                                                                                                    { 
+                                                                                                                        Patient p = hospitalDAO.getPatientById(appt.getPatientId());
+                                                                                                                        String pInfo = "";
+                                                                                                                        if(p != null) {
+                                                                                                                            long ageMillis = System.currentTimeMillis() - p.getDob().getTime();
+                                                                                                                            int age = (int) (ageMillis / (1000L * 60 * 60 * 24 * 365));
+                                                                                                                            pInfo = p.getGender() + ", " + age + " Yrs | " +
+                                                                                                                                    "H: " + p.getHeight() + "cm | " +
+                                                                                                                                    "W: " + p.getWeight() + "kg | " +
+                                                                                                                                    "Blood: " + p.getBloodGroup();
+                                                                                                                        }
+                                                                                                                    %>
                                                                                                                     <button
                                                                                                                         class="btn btn-sm btn-primary"
-                                                                                                                        onclick="openPrescriptionModal('<%= appt.getId() %>', '<%= appt.getPatientId() %>', '<%= appt.getPatientName() %>')">
+                                                                                                                        onclick="openPrescriptionModal('<%= appt.getId() %>', '<%= appt.getPatientId() %>', '<%= appt.getPatientName() %>', '<%= pInfo %>')">
                                                                                                                         Prescribe
                                                                                                                     </button>
                                                                                                                     <% } else
@@ -237,8 +248,11 @@
                                                 <div class="mb-4">
                                                     <label
                                                         class="form-label fw-semibold text-secondary small">PATIENT</label>
-                                                    <input type="text" class="form-control bg-light"
-                                                        id="modalPatientName" readonly>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <input type="text" class="form-control bg-light"
+                                                            id="modalPatientName" readonly style="max-width: 300px;">
+                                                        <span id="modalPatientInfo" class="small fw-medium text-secondary px-3 py-1 bg-light border rounded" style="display: none;"></span>
+                                                    </div>
                                                 </div>
 
                                                 <div class="mb-4">
@@ -278,10 +292,18 @@
                             <script>
                                 lucide.createIcons();
 
-                                function openPrescriptionModal(apptId, patientId, patientName) {
+                                function openPrescriptionModal(apptId, patientId, patientName, patientInfo) {
                                     document.getElementById('modalApptId').value = apptId;
                                     document.getElementById('modalPatientId').value = patientId;
                                     document.getElementById('modalPatientName').value = patientName;
+                                    
+                                    const infoSpan = document.getElementById('modalPatientInfo');
+                                    if(patientInfo && patientInfo.trim() !== '') {
+                                        infoSpan.innerText = patientInfo;
+                                        infoSpan.style.display = 'inline-block';
+                                    } else {
+                                        infoSpan.style.display = 'none';
+                                    }
 
                                     // Clear previous medicines
                                     document.getElementById('medicineContainer').innerHTML = '';

@@ -360,9 +360,23 @@ public class HospitalServlet extends HttpServlet {
                         int itemId = Integer.parseInt(itemIdStr);
                         BillingCatalog item = hospitalDAO.getBillingCatalogItemById(itemId);
                         if (item != null) {
-                            hospitalDAO
-                                    .addBillingDetail(new BillingDetail(billId, item.getItemName(), item.getPrice()));
-                            total += item.getPrice();
+                            String qtyStr = req.getParameter("qty_" + itemIdStr);
+                            int qty = 1;
+                            if (qtyStr != null && !qtyStr.isEmpty()) {
+                                try {
+                                    qty = Integer.parseInt(qtyStr);
+                                    if (qty < 1) qty = 1;
+                                } catch (NumberFormatException ignored) {}
+                            }
+                            
+                            double itemTotal = item.getPrice() * qty;
+                            String detailName = item.getItemName();
+                            if (qty > 1) {
+                                detailName += " (x" + qty + ")";
+                            }
+                            
+                            hospitalDAO.addBillingDetail(new BillingDetail(billId, detailName, itemTotal));
+                            total += itemTotal;
                         }
                     }
                 }

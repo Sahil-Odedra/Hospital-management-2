@@ -251,27 +251,32 @@
                                                                     <label class="form-label fw-bold small">Services &
                                                                         Procedures (Used)</label>
                                                                     <div class="service-checklist border rounded p-3"
-                                                                        style="max-height: 250px; overflow-y: auto;">
-                                                                        <% for(BillingCatalog item : billingCatalog) {
+                                                                        style="max-height: 250px; overflow-y: auto;">                                                                         <% for(BillingCatalog item : billingCatalog) {
                                                                             %>
-                                                                            <div class="form-check mb-2">
-                                                                                <input
-                                                                                    class="form-check-input billing-item"
-                                                                                    type="checkbox" name="billingItems"
-                                                                                    value="<%= item.getId() %>"
-                                                                                    data-price="<%= item.getPrice() %>"
-                                                                                    id="item-<%= item.getId() %>">
-                                                                                <label
-                                                                                    class="form-check-label d-flex justify-content-between small"
-                                                                                    for="item-<%= item.getId() %>">
-                                                                                    <span>
+                                                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                                                <div class="form-check m-0">
+                                                                                    <input
+                                                                                        class="form-check-input billing-item"
+                                                                                        type="checkbox" name="billingItems"
+                                                                                        value="<%= item.getId() %>"
+                                                                                        data-price="<%= item.getPrice() %>"
+                                                                                        id="item-<%= item.getId() %>">
+                                                                                    <label
+                                                                                        class="form-check-label small ms-1"
+                                                                                        for="item-<%= item.getId() %>">
                                                                                         <%= item.getItemName() %>
-                                                                                    </span>
-                                                                                    <span class="text-muted">₹<%=
-                                                                                            item.getPrice() %></span>
-                                                                                </label>
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <span class="text-muted small me-2">₹<%= item.getPrice() %></span>
+                                                                                    <input type="number" min="1" value="1" 
+                                                                                        name="qty_<%= item.getId() %>" 
+                                                                                        id="qty-<%= item.getId() %>" 
+                                                                                        class="form-control form-control-sm text-center billing-qty" 
+                                                                                        style="width: 60px; padding: 0.1rem 0.3rem; height: 26px;" disabled>
+                                                                                </div>
                                                                             </div>
-                                                                            <% } %>
+                                                                            <% } %>} %>
                                                                     </div>
                                                                     <div class="mt-4 p-3 bg-light rounded">
                                                                         <div
@@ -341,7 +346,12 @@
 
                                                 let total = bedCharges;
                                                 document.querySelectorAll('.billing-item:checked').forEach(item => {
-                                                    total += parseFloat(item.getAttribute('data-price'));
+                                                    const qtyInput = document.getElementById('qty-' + item.value);
+                                                    let qty = 1;
+                                                    if(qtyInput && qtyInput.value) {
+                                                        qty = parseInt(qtyInput.value) || 1;
+                                                    }
+                                                    total += (parseFloat(item.getAttribute('data-price')) * qty);
                                                 });
 
                                                 if (currentDeposit > 0) {
@@ -357,7 +367,18 @@
                                             }
 
                                             document.querySelectorAll('.billing-item').forEach(item => {
-                                                item.addEventListener('change', calculateBill);
+                                                item.addEventListener('change', function() {
+                                                    const qtyInput = document.getElementById('qty-' + this.value);
+                                                    if (qtyInput) {
+                                                        qtyInput.disabled = !this.checked;
+                                                    }
+                                                    calculateBill();
+                                                });
+                                            });
+
+                                            document.querySelectorAll('.billing-qty').forEach(qty => {
+                                                qty.addEventListener('input', calculateBill);
+                                                qty.addEventListener('change', calculateBill);
                                             });
                                         </script>
                                     </body>
