@@ -1,0 +1,34 @@
+# Default: auto-detect text files and normalize to LF in the repo
+* text=auto eol=lf
+
+# Java / Web source — always LF
+*.java        text eol=lf
+*.jsp         text eol=lf
+*.xml         text eol=lf
+*.properties  text eol=lf
+*.yml         text eol=lf
+*.yaml        text eol=lf
+*.json        text eol=lf
+*.sql         text eol=lf
+*.css         text eol=lf
+*.js          text eol=lf
+*.html        text eol=lf
+*.md          text eol=lf
+
+# Docker — must be LF (Linux containers)
+Dockerfile    text eol=lf
+*.sh          text eol=lf
+
+# Windows batch scripts — CRLF on checkout
+*.bat         text eol=crlf
+*.cmd         text eol=crlf
+
+# Binary files — no line-ending conversion
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.war   binary
+*.jar   binary
+*.class binary
