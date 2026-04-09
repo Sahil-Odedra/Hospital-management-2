@@ -1,5 +1,6 @@
 <%@ page import="com.careconnect.Entities.*" %>
-    <%@ page import="com.careconnect.HospitalDAO" %>
+<%@ page import="com.careconnect.HospitalDAO" %>
+<%@ page import="java.util.Map" %>
         <%@ page contentType="text/html;charset=UTF-8" language="java" %>
             <% User user=(User) session.getAttribute("user"); if (user==null || !"ADMIN".equals(user.getRole())) {
                 response.sendRedirect(request.getContextPath() + "/index.jsp" ); return; } HospitalDAO dao=new

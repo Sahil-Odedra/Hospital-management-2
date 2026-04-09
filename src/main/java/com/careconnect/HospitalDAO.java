@@ -13,10 +13,10 @@ public class HospitalDAO {
     public Map<String, Double> getMonthlyRevenue() {
         Map<String, Double> revenue = new LinkedHashMap<>();
         String sql = "SELECT DATE_FORMAT(billing_date, '%b %Y') as month, SUM(total_amount) as total " +
-                     "FROM billing " +
-                     "GROUP BY month " +
-                     "ORDER BY MIN(billing_date) DESC " +
-                     "LIMIT 6";
+                "FROM billing " +
+                "GROUP BY month " +
+                "ORDER BY MIN(billing_date) DESC " +
+                "LIMIT 6";
         try (Connection conn = DBConnection.getConnection();
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
@@ -1246,7 +1246,8 @@ public class HospitalDAO {
         }
         return list;
     }
-//asd
+
+    // asd
     public List<PatientReport> getReportsByPatientId(int patientId) {
         List<PatientReport> list = new ArrayList<>();
         String sql = "SELECT pr.*, b.item_name as test_name FROM patient_reports pr JOIN billing_catalog b ON pr.test_id = b.id WHERE pr.patient_id = ? ORDER BY pr.test_date DESC";

@@ -414,16 +414,18 @@ public class HospitalServlet extends HttpServlet {
                             if (qtyStr != null && !qtyStr.isEmpty()) {
                                 try {
                                     qty = Integer.parseInt(qtyStr);
-                                    if (qty < 1) qty = 1;
-                                } catch (NumberFormatException ignored) {}
+                                    if (qty < 1)
+                                        qty = 1;
+                                } catch (NumberFormatException ignored) {
+                                }
                             }
-                            
+
                             double itemTotal = item.getPrice() * qty;
                             String detailName = item.getItemName();
                             if (qty > 1) {
                                 detailName += " (x" + qty + ")";
                             }
-                            
+
                             hospitalDAO.addBillingDetail(new BillingDetail(billId, detailName, itemTotal));
                             total += itemTotal;
                         }

@@ -30,9 +30,11 @@
                                 overflow: hidden;
                                 z-index: 1000;
                             }
+
                             .chat-widget.active {
                                 display: flex;
                             }
+
                             .chat-toggle-btn {
                                 position: fixed;
                                 bottom: 20px;
@@ -51,6 +53,7 @@
                                 cursor: pointer;
                                 transition: transform 0.2s;
                             }
+
                             .chat-toggle-btn:hover {
                                 transform: scale(1.05);
                             }
@@ -146,11 +149,12 @@
                                             class="btn btn-outline-danger btn-sm">Logout</a>
                                     </div>
                                     <% } else { %>
-                                        <a href="index.jsp" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-2 fw-medium shadow-sm bg-white">
+                                        <a href="index.jsp"
+                                            class="btn btn-outline-primary btn-sm d-flex align-items-center gap-2 fw-medium shadow-sm bg-white">
                                             <i data-lucide="shield-check" style="width: 16px;"></i>
                                             Staff Login
                                         </a>
-                                    <% } %>
+                                        <% } %>
                             </div>
                         </nav>
 
@@ -265,7 +269,8 @@
                                                                                             class="badge bg-danger text-white">
                                                                                             <%= currentUser.getBloodGroup()
                                                                                                 %>
-                                                                                        </span></div>
+                                                                                        </span>
+                                                                                    </div>
                                                                                     <div><strong>Allergies:</strong>
                                                                                         <%= currentUser.getAllergies()
                                                                                             !=null ?
@@ -291,7 +296,8 @@
                                                                                         <label
                                                                                             class="form-label small fw-medium">Select
                                                                                             Doctor</label>
-                                                                                        <select name="doctorId" id="doctorId"
+                                                                                        <select name="doctorId"
+                                                                                            id="doctorId"
                                                                                             class="form-select"
                                                                                             required>
                                                                                             <option value="">Choose...
@@ -311,7 +317,8 @@
                                                                                     <div class="mb-3">
                                                                                         <label
                                                                                             class="form-label small fw-medium">Date</label>
-                                                                                        <input type="date" id="appointmentDate"
+                                                                                        <input type="date"
+                                                                                            id="appointmentDate"
                                                                                             name="appointmentDate"
                                                                                             class="form-control"
                                                                                             min="<%= java.time.LocalDate.now() %>"
@@ -320,18 +327,33 @@
                                                                                     <div class="mb-3">
                                                                                         <label
                                                                                             class="form-label small fw-medium">Time</label>
-                                                                                        <select name="appointmentTime" id="appointmentTime" class="form-select" required>
-                                                                                            <option value="">Select Time...</option>
-                                                                                            <% String[] hours={"09", "10", "11", "12", "13", "14", "15", "16", "17"};
-                                                                                               String[] mins={"00", "30"};
-                                                                                               for(String h : hours) {
-                                                                                                   for(String m : mins) {
-                                                                                                       String tVal=h + ":" + m + ":00" ;
-                                                                                                       int hh=Integer.parseInt(h);
-                                                                                                       String displayT=(hh > 12 ? (hh-12) : hh) + ":" + m + (hh >= 12 ? " PM" : " AM");
-                                                                                            %>
-                                                                                                <option value="<%= tVal %>"><%= displayT %></option>
-                                                                                            <% } } %>
+                                                                                        <select name="appointmentTime"
+                                                                                            id="appointmentTime"
+                                                                                            class="form-select"
+                                                                                            required>
+                                                                                            <option value="">Select
+                                                                                                Time...</option>
+                                                                                            <% String[]
+                                                                                                hours={"09", "10" , "11"
+                                                                                                , "12" , "13" , "14"
+                                                                                                , "15" , "16" , "17" };
+                                                                                                String[]
+                                                                                                mins={"00", "30" };
+                                                                                                for(String h : hours) {
+                                                                                                for(String m : mins) {
+                                                                                                String tVal=h + ":" + m
+                                                                                                + ":00" ; int
+                                                                                                hh=Integer.parseInt(h);
+                                                                                                String displayT=(hh> 12
+                                                                                                ? (hh-12) : hh) + ":" +
+                                                                                                m + (hh >= 12 ? " PM" :
+                                                                                                " AM");
+                                                                                                %>
+                                                                                                <option
+                                                                                                    value="<%= tVal %>">
+                                                                                                    <%= displayT %>
+                                                                                                </option>
+                                                                                                <% } } %>
                                                                                         </select>
                                                                                     </div>
                                                                                     <button type="submit"
@@ -374,15 +396,29 @@
                                                                                                     appointments) { %>
                                                                                                     <tr>
                                                                                                         <td>
-                                                                                                            <%= new java.text.SimpleDateFormat("MMM dd, yyyy hh:mm a").format(a.getAppointmentTime()) %>
+                                                                                                            <%= new
+                                                                                                                java.text.SimpleDateFormat("MMM
+                                                                                                                dd, yyyy
+                                                                                                                hh:mm
+                                                                                                                a").format(a.getAppointmentTime())
+                                                                                                                %>
                                                                                                         </td>
                                                                                                         <td>
                                                                                                             <%= a.getDoctorName()
                                                                                                                 %>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span class="badge <%= a.getStatus().equals("COMPLETED") ? "bg-success" : a.getStatus().equals("CANCELLED") ? "bg-danger" : "bg-warning text-dark" %>">
-                                                                                                                <%= a.getStatus() %>
+                                                                                                            <span
+                                                                                                                class="badge <%= a.getStatus().equals("
+                                                                                                                COMPLETED")
+                                                                                                                ? "bg-success"
+                                                                                                                :
+                                                                                                                a.getStatus().equals("CANCELLED")
+                                                                                                                ? "bg-danger"
+                                                                                                                : "bg-warning text-dark"
+                                                                                                                %>">
+                                                                                                                <%= a.getStatus()
+                                                                                                                    %>
                                                                                                             </span>
                                                                                                         </td>
                                                                                                     </tr>
@@ -410,10 +446,18 @@
                                                                                         <div
                                                                                             class="d-flex justify-content-between text-muted small mb-2">
                                                                                             <span><strong>Admitted:</strong>
-                                                                                                <%= new java.text.SimpleDateFormat("MMM dd, yyyy").format(adm.getAdmissionDate()) %>
+                                                                                                <%= new
+                                                                                                    java.text.SimpleDateFormat("MMM
+                                                                                                    dd,
+                                                                                                    yyyy").format(adm.getAdmissionDate())
+                                                                                                    %>
                                                                                             </span>
                                                                                             <span><strong>Discharged:</strong>
-                                                                                                <%= new java.text.SimpleDateFormat("MMM dd, yyyy").format(adm.getDischargeDate()) %>
+                                                                                                <%= new
+                                                                                                    java.text.SimpleDateFormat("MMM
+                                                                                                    dd,
+                                                                                                    yyyy").format(adm.getDischargeDate())
+                                                                                                    %>
                                                                                             </span>
                                                                                         </div>
                                                                                         <p class="mb-0 text-dark">
@@ -447,8 +491,13 @@
                                                                                                 class="text-primary fw-medium mb-1">
                                                                                                 <%= pr.getTestName() %>
                                                                                             </div>
-                                                                                            <div class="text-muted small mb-2">
-                                                                                                <%= new java.text.SimpleDateFormat("MMM dd, yyyy hh:mm a").format(pr.getTestDate()) %>
+                                                                                            <div
+                                                                                                class="text-muted small mb-2">
+                                                                                                <%= new
+                                                                                                    java.text.SimpleDateFormat("MMM
+                                                                                                    dd, yyyy hh:mm
+                                                                                                    a").format(pr.getTestDate())
+                                                                                                    %>
                                                                                             </div>
                                                                                             <p
                                                                                                 class="mb-0 border-start border-3 border-primary ps-3">
@@ -463,15 +512,19 @@
 
                                                                 <!-- Chatbot Widget -->
                                                                 <!-- Chatbot Widget -->
-                                                                <button class="chat-toggle-btn" id="chatToggleBtn" onclick="toggleChat()">
-                                                                    <i data-lucide="message-square" style="width: 28px; height: 28px;"></i>
+                                                                <button class="chat-toggle-btn" id="chatToggleBtn"
+                                                                    onclick="toggleChat()">
+                                                                    <i data-lucide="message-square"
+                                                                        style="width: 28px; height: 28px;"></i>
                                                                 </button>
                                                                 <div class="chat-widget" id="chatWidget">
                                                                     <div class="chat-header">
                                                                         <span class="d-flex align-items-center gap-2"><i
                                                                                 data-lucide="bot"></i> CareConnect
                                                                             Assistant</span>
-                                                                        <button onclick="closeChat()" class="btn-close btn-close-white" style="font-size: 0.8rem;"></button>
+                                                                        <button onclick="closeChat()"
+                                                                            class="btn-close btn-close-white"
+                                                                            style="font-size: 0.8rem;"></button>
                                                                     </div>
                                                                     <div class="chat-body" id="chatBody">
                                                                         <div class="msg msg-bot">Hello <%=
@@ -494,7 +547,8 @@
                                                                 </div>
 
                                                                 <!-- Scripts -->
-                                                                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                                                                <script
+                                                                    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
                                                                 <script>lucide.createIcons();</script>
                                                                 <script>
                                                                     const doctorSelect = document.getElementById('doctorId');
@@ -502,7 +556,7 @@
                                                                     const timeSelect = document.getElementById('appointmentTime');
 
                                                                     async function updateAvailableSlots() {
-                                                                        if(!doctorSelect || !dateInput || !timeSelect) return;
+                                                                        if (!doctorSelect || !dateInput || !timeSelect) return;
                                                                         const doctorId = doctorSelect.value;
                                                                         const date = dateInput.value;
 
@@ -510,7 +564,7 @@
                                                                             Array.from(timeSelect.options).forEach(option => {
                                                                                 option.disabled = false;
                                                                                 option.style.backgroundColor = "";
-                                                                                if(option.text.includes(' (Booked)')) {
+                                                                                if (option.text.includes(' (Booked)')) {
                                                                                     option.text = option.text.split(' (Booked)')[0];
                                                                                 }
                                                                             });
@@ -534,8 +588,8 @@
                                                                                 } else {
                                                                                     option.disabled = false;
                                                                                     option.style.backgroundColor = "";
-                                                                                    if(option.text.includes(' (Booked)')) {
-                                                                                       option.text = option.text.replace(" (Booked)", "");
+                                                                                    if (option.text.includes(' (Booked)')) {
+                                                                                        option.text = option.text.replace(" (Booked)", "");
                                                                                     }
                                                                                 }
                                                                             });
@@ -544,7 +598,7 @@
                                                                         }
                                                                     }
 
-                                                                    if(doctorSelect && dateInput) {
+                                                                    if (doctorSelect && dateInput) {
                                                                         doctorSelect.addEventListener('change', updateAvailableSlots);
                                                                         dateInput.addEventListener('change', updateAvailableSlots);
                                                                     }
@@ -564,9 +618,9 @@
 
                                                                         function toggleChat() {
                                                                             document.getElementById('chatWidget').classList.toggle('active');
-                                                                            if(document.getElementById('chatWidget').classList.contains('active')) {
-                                                                               document.getElementById('chatToggleBtn').style.display = 'none';
-                                                                               chatInput.focus();
+                                                                            if (document.getElementById('chatWidget').classList.contains('active')) {
+                                                                                document.getElementById('chatToggleBtn').style.display = 'none';
+                                                                                chatInput.focus();
                                                                             }
                                                                         }
 
