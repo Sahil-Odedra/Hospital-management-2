@@ -5,9 +5,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import com.careconnect.Entities.*;
 
 public class HospitalDAO {
+
+    public Map<String, Double> getMonthlyRevenue() {
+        Map<String, Double> revenue = new LinkedHashMap<>();
+        String sql = "SELECT DATE_FORMAT(billing_date, '%b %Y') as month, SUM(total_amount) as total " +
+                     "FROM billing " +
+                     "GROUP BY month " +
+                     "ORDER BY MIN(billing_date) DESC " +
+                     "LIMIT 6";
+        try (Connection conn = DBConnection.getConnection();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                revenue.put(rs.getString("month"), rs.getDouble("total"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return revenue;
+    }
 
     public User login(String email, String password) {
         String sql = "SELECT * FROM users WHERE email = ? AND password = ?";

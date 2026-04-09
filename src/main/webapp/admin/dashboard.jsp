@@ -126,6 +126,40 @@
                                         </div>
                                     </div>
                                 </div>
+                                <% Map<String, Double> monthlyRevenue = dao.getMonthlyRevenue();
+                                   double totalRevenue = monthlyRevenue.values().stream().mapToDouble(Double::doubleValue).sum();
+                                   java.text.NumberFormat currencyFormat = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("en", "IN"));
+                                %>
+
+                                <!-- Financial Summary Section -->
+                                <div class="mt-5 animate-fade" style="animation-delay: 0.15s;">
+                                    <div class="card border-0 shadow-sm" style="border-radius: var(--radius-xl);">
+                                        <div class="card-body p-4">
+                                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                                <h5 class="mb-0 fw-semibold">Financial Overview</h5>
+                                                <div class="text-end">
+                                                    <span class="text-secondary small fw-medium d-block">Total Revenue</span>
+                                                    <h4 class="mb-0 fw-bold text-primary"><%= currencyFormat.format(totalRevenue) %></h4>
+                                                </div>
+                                            </div>
+                                            <div class="row g-4">
+                                                <% for (Map.Entry<String, Double> entry : monthlyRevenue.entrySet()) { %>
+                                                <div class="col-6 col-md-4 col-lg-2 text-center">
+                                                    <div class="p-3 bg-light rounded-3 transition-hover">
+                                                        <span class="text-secondary small fw-medium d-block mb-1 text-uppercase"><%= entry.getKey() %></span>
+                                                        <span class="text-dark fw-bold"><%= currencyFormat.format(entry.getValue()) %></span>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                                                <% if (monthlyRevenue.isEmpty()) { %>
+                                                <div class="col-12 text-center py-4">
+                                                    <p class="text-muted mb-0">No billing data available yet.</p>
+                                                </div>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <!-- Quick Actions Section -->
                                 <div class="mt-5 animate-fade" style="animation-delay: 0.2s;">

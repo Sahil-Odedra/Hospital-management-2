@@ -103,14 +103,7 @@
                             <span>Services & Billing</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/manage_reports.jsp"
-                        class="nav-link <% if(request.getRequestURI().contains(" manage_reports.jsp")) { %>active<% } %>
-                            ">
-                            <i data-lucide="file-text"></i>
-                            <span>Lab Reports</span>
-                    </a>
-                </li>
+
             </ul>
         </nav>
 
