@@ -403,15 +403,7 @@
                                                                                                                 %>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span
-                                                                                                                class="badge <%= a.getStatus().equals("
-                                                                                                                COMPLETED")
-                                                                                                                ? "bg-success"
-                                                                                                                :
-                                                                                                                a.getStatus().equals("CANCELLED")
-                                                                                                                ? "bg-danger"
-                                                                                                                : "bg-warning text-dark"
-                                                                                                                %>">
+                                                                                                            <span class="badge <%= a.getStatus().equals("COMPLETED") ? "bg-success" : a.getStatus().equals("CANCELLED") ? "bg-danger" : "bg-warning text-dark" %>">
                                                                                                                 <%= a.getStatus()
                                                                                                                     %>
                                                                                                             </span>

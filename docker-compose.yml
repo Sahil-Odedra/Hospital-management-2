@@ -25,7 +25,6 @@ services:
       - MYSQL_DATABASE=hospital
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./full_setup.sql:/docker-entrypoint-initdb.d/full_setup.sql
     ports:
       - "3307:3306"
 

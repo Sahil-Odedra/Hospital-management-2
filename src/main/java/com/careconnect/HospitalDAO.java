@@ -780,54 +780,8 @@ public class HospitalDAO {
     public HospitalDAO() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            autoPatchSchema();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void autoPatchSchema() {
-        String createBillingDetails = "CREATE TABLE IF NOT EXISTS billing_details ("
-                + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                + "billing_id INT NOT NULL,"
-                + "item_name VARCHAR(255) NOT NULL,"
-                + "amount DECIMAL(10, 2) NOT NULL,"
-                + "FOREIGN KEY (billing_id) REFERENCES billing (id) ON DELETE CASCADE"
-                + ")";
-        try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(createBillingDetails)) {
-            ps.executeUpdate();
-            System.out.println("Schema auto-patch verified for billing_details.");
-        } catch (Exception e) {
-            System.err.println("Schema auto-patch failed for billing_details: " + e.getMessage());
-        }
-
-        String createStaffTable = "CREATE TABLE IF NOT EXISTS staff ("
-                + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                + "name VARCHAR(255) NOT NULL,"
-                + "role VARCHAR(100) NOT NULL,"
-                + "phone VARCHAR(20),"
-                + "assigned_to_type VARCHAR(50),"
-                + "assigned_to_id INT DEFAULT 0,"
-                + "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
-                + ")";
-        try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(createStaffTable)) {
-            ps.executeUpdate();
-            System.out.println("Schema auto-patch verified for staff.");
-        } catch (Exception e) {
-            System.err.println("Schema auto-patch failed for staff: " + e.getMessage());
-        }
-
-        // Fix: ensure assigned_to_type can hold values like WARD, DEPT, GEN
-        // If the column was created as ENUM or short VARCHAR it would cause "Data truncated" errors
-        String fixAssignedToType = "ALTER TABLE staff MODIFY COLUMN assigned_to_type VARCHAR(50)";
-        try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(fixAssignedToType)) {
-            ps.executeUpdate();
-            System.out.println("Schema auto-patch: staff.assigned_to_type ensured as VARCHAR(50).");
-        } catch (Exception e) {
-            System.err.println("Schema auto-patch note for assigned_to_type: " + e.getMessage());
         }
     }
 
@@ -1275,7 +1229,7 @@ public class HospitalDAO {
         return list;
     }
 
-    // asd
+
     public List<PatientReport> getReportsByPatientId(int patientId) {
         List<PatientReport> list = new ArrayList<>();
         String sql = "SELECT pr.*, b.item_name as test_name FROM patient_reports pr JOIN billing_catalog b ON pr.test_id = b.id WHERE pr.patient_id = ? ORDER BY pr.test_date DESC";
