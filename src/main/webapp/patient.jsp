@@ -396,12 +396,7 @@
                                                                                                     appointments) { %>
                                                                                                     <tr>
                                                                                                         <td>
-                                                                                                            <%= new
-                                                                                                                java.text.SimpleDateFormat("MMM
-                                                                                                                dd, yyyy
-                                                                                                                hh:mm
-                                                                                                                a").format(a.getAppointmentTime())
-                                                                                                                %>
+                                                                                                            <%= new java.text.SimpleDateFormat("MMM dd, yyyy hh:mm a").format(a.getAppointmentTime()) %>
                                                                                                         </td>
                                                                                                         <td>
                                                                                                             <%= a.getDoctorName()
@@ -446,18 +441,10 @@
                                                                                         <div
                                                                                             class="d-flex justify-content-between text-muted small mb-2">
                                                                                             <span><strong>Admitted:</strong>
-                                                                                                <%= new
-                                                                                                    java.text.SimpleDateFormat("MMM
-                                                                                                    dd,
-                                                                                                    yyyy").format(adm.getAdmissionDate())
-                                                                                                    %>
+                                                                                                <%= new java.text.SimpleDateFormat("MMM dd, yyyy").format(adm.getAdmissionDate()) %>
                                                                                             </span>
                                                                                             <span><strong>Discharged:</strong>
-                                                                                                <%= new
-                                                                                                    java.text.SimpleDateFormat("MMM
-                                                                                                    dd,
-                                                                                                    yyyy").format(adm.getDischargeDate())
-                                                                                                    %>
+                                                                                                <%= new java.text.SimpleDateFormat("MMM dd, yyyy").format(adm.getDischargeDate()) %>
                                                                                             </span>
                                                                                         </div>
                                                                                         <p class="mb-0 text-dark">
@@ -493,11 +480,7 @@
                                                                                             </div>
                                                                                             <div
                                                                                                 class="text-muted small mb-2">
-                                                                                                <%= new
-                                                                                                    java.text.SimpleDateFormat("MMM
-                                                                                                    dd, yyyy hh:mm
-                                                                                                    a").format(pr.getTestDate())
-                                                                                                    %>
+                                                                                                <%= new java.text.SimpleDateFormat("MMM dd, yyyy hh:mm a").format(pr.getTestDate()) %>
                                                                                             </div>
                                                                                             <p
                                                                                                 class="mb-0 border-start border-3 border-primary ps-3">

@@ -44,12 +44,7 @@
                             <span>Medical History</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i data-lucide="calendar"></i>
-                        <span>My Schedule</span>
-                    </a>
-                </li>
+
             </ul>
         </nav>
 
